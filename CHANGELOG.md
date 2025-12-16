@@ -4,6 +4,8 @@ Todas as mudanças relevantes deste projeto serão documentadas neste arquivo.
 O formato segue o padrão [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [Unreleased]
+
 ## [1.1.0] - 2025-12-16
 ### Changed
 - Separação do aplicativo em ui, server e global
