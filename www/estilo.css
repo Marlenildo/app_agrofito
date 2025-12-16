@@ -1,0 +1,277 @@
+:root {
+  --primary: #548238;
+  --secondary: #ffc000;
+  --text-dark: #264653;
+  --bg-light: #f5f7fa;
+  --warning-bg: #fff3cd;
+  --warning-border: #ffeeba;
+}
+
+/* -------------------- BASE -------------------- */
+body { 
+  background: var(--bg-light); 
+  font-family: Arial, 'Segoe UI', Roboto, sans-serif; 
+  color: var(--text-dark); 
+  margin: 0;
+  padding: 0;
+}
+
+/* -------------------- BOX DE ENTRADA -------------------- */
+.input-box {
+  background: #ffffff; 
+  border-radius: 12px; 
+  padding: 16px; 
+  margin-bottom: 18px; 
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* -------------------- DESCRIÇÃO DENTRO DO INPUT BOX -------------------- */
+.input-box p {
+  color: #333;   /* verde combinando com borda e título */
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+
+.panel-title { 
+  font-weight:700; 
+  color: var(--primary); 
+  margin-bottom:12px; 
+  font-size:16px;
+  border-left: 5px solid var(--secondary);
+  padding-left: 8px;
+}
+
+/* -------------------- LABELS -------------------- */
+.form-group label { 
+  color: var(--primary); 
+  font-weight: 600; 
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* -------------------- INPUTS & SELECTS - FOCO -------------------- */
+.shiny-input-container select:focus,
+.shiny-input-container textarea:focus,
+.selectize-input.focus {
+  outline: none !important;
+  border-color: #548238 !important;
+  box-shadow: 0 0 6px #548238 !important;
+  transition: 0.3s;
+}
+
+/* -------------------- BOTÕES -------------------- */
+.btn {
+  background-color: var(--primary); 
+  color:white; 
+  border-radius:8px; 
+  padding:8px 16px;
+  font-weight:600;
+  border:none;
+  transition: 0.2s;
+}
+
+.btn:hover { 
+  background-color: var(--secondary); 
+  color: var(--text-dark);
+}
+
+/* -------------------- TABELAS -------------------- */
+table.dataTable th {
+  background-color: var(--primary) !important;
+  color: white !important;
+  text-align:center;
+}
+
+table.dataTable td {
+  border: 1px solid #d6e9c6;
+}
+
+table.dataTable tr:nth-child(even) {
+  background-color: #f9fbf5;
+}
+
+table.dataTable tr:hover {
+  background-color: #fff7d6; /* amarelo claro no hover */
+}
+
+.dataTables_wrapper {
+  width: 100%;
+  overflow-x: auto; /* barra de rolagem horizontal para telas pequenas */
+}
+
+/* -------------------- RESULT BOX -------------------- */
+.result-box {
+  background: var(--secondary); 
+  color: var(--text-dark); 
+  font-size:18px; 
+  font-weight:600;
+  border-radius:10px; 
+  padding:14px; 
+  text-align:center;
+  margin-top:12px;
+}
+
+/* -------------------- RODAPÉ -------------------- */
+footer {
+  background-color: white;
+  color: #6c757d;
+  padding: 10px 20px;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-top: 3px solid var(--primary);
+}
+
+footer img {
+  height: 30px;
+}
+
+/* -------------------- TEXTO EXPLICATIVO -------------------- */
+.texto-explicativo {
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* -------------------- VERSAO / BANNER -------------------- */
+.version-banner {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.version-banner a {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+/* -------------------- INFO BOX / ALERT -------------------- */
+.info-box {
+  border: 1px solid var(--warning-border);
+  border-left: 6px solid var(--secondary);
+  border-radius: 12px;
+  padding: 16px;
+  background-color: var(--warning-bg);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.info-box p.title {
+  margin: 6px 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--primary);
+  text-align: center;
+}
+
+.info-box a {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.info-box a:hover {
+  text-decoration: underline;
+  color: darkgreen;
+}
+
+/* -------------------- VERSAO BOX -------------------- */
+#versao_box {
+  background-color: #eaf4e0;
+  border-left: 6px solid var(--primary);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 10px;
+  color: var(--primary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+#versao_box a {
+  word-break: break-all;
+  overflow-wrap: break-word;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+#versao_box a:hover {
+  color: darkgreen;
+  text-decoration: underline;
+}
+
+/* -------------------- NAVBAR -------------------- */
+.navbar-default {
+  background-color: white;
+  border-color: #ddd;
+  padding: 8px 16px;
+  
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: #548238;
+  border-radius: 20px;
+  padding: 12px 20px;
+  margin: 0 6px;
+  transition: all 0.3s ease;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+  background-color: #d1e7c4;
+  color: #548238;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:focus {
+  background-color: #548238;
+  color: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+  
+@media (max-width: 768px) {
+  .navbar-default .navbar-nav > li > a {
+    margin: 3px 2px;
+    padding: 10px 14px;
+  }
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #548238;
+}
+
+.navbar-default .navbar-toggle:hover .icon-bar {
+  background-color: #3a5d27;
+}
+
+/* -------------------- INTRO TEXT -------------------- */
+.intro-text {
+  background-color: white;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  color: #333;
+  font-size: 14px;
+}
+
+      .login-box {width: 400px; margin: 100px auto; padding: 30px; border-radius: 10px; background-color: #ffffff; box-shadow: 0px 0px 15px #ccc; text-align: center;}
+      .login-box img {margin-bottom: 20px;}
+      .login-box input {width: 100%; margin-bottom: 15px; padding: 10px; border-radius: 5px; border: 1px solid #ccc;}
+      .login-box button {width: 100%; padding: 10px; border-radius: 5px; border: none; background-color: #548238; color: white; font-weight: bold;}
+      .login-error {color: red; font-size: 14px; margin-bottom: 10px;}
+      
+      
+      

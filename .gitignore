@@ -1,0 +1,21 @@
+# R
+.Rhistory
+.RData
+.Ruserdata
+
+# RStudio
+.Rproj.user/
+
+# Ambiente e segredos
+.Renviron
+.env
+
+# Shiny
+rsconnect/
+
+# Banco / cache
+*.sqlite
+*.db
+
+# Logs
+*.log
