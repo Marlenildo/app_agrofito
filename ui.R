@@ -1,3 +1,18 @@
+app_footer <- function() {
+  tags$footer(
+    img(
+      src = "nova_logomm.png",
+      height = "40px",
+      style = "vertical-align: middle; margin-right: 8px;"
+    ),
+    paste0(
+      "© 2025 MelonMundi - Global Solutions | Agrofito ",
+      APP_VERSION
+    )
+  )
+}
+
+
 fluidPage(
   tags$head(
     includeCSS("www/estilo.css"),
@@ -102,17 +117,8 @@ fluidPage(
         )
       )
       
-    ),
-    tags$footer(
-      img(
-        src = "nova_logomm.png",
-        height = "40px",
-        style = "vertical-align: middle; margin-right: 8px;"
-      ),
-      paste0(
-        "© 2025 MelonMundi - Global Solutions | Consulta Agrofit v",
-        APP_VERSION
-      )
     )
-  )
+  ),
+  # ✅ Footer sempre visível (login + app)
+  app_footer()
 )
