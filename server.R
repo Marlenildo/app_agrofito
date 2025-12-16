@@ -4,10 +4,17 @@ function(input, output, session) {
   user_auth <- reactiveValues(logged_in = FALSE, login_fail = FALSE)
   
   valid_users <- data.frame(
-    user = c("convidado", "luisalvarez"),
-    password = c("melon@2025", "Mundi.Melon"),
+    user = c(
+      Sys.getenv("AGROFIT_USER_1"),
+      Sys.getenv("AGROFIT_USER_2")
+    ),
+    password = c(
+      Sys.getenv("AGROFIT_PASS_1"),
+      Sys.getenv("AGROFIT_PASS_2")
+    ),
     stringsAsFactors = FALSE
   )
+  
   
   output$login_ui <- renderUI({
     if (!user_auth$logged_in) {
