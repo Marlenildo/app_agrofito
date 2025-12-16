@@ -6,6 +6,14 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-12-16
+### Added
+- Footer institucional exibido também na tela de login
+- Exibição da versão do aplicativo no login
+
+### Changed
+- Footer padronizado e exibido globalmente
+
 ## [1.1.0] - 2025-12-16
 ### Changed
 - Separação do aplicativo em ui, server e global
