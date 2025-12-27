@@ -6,11 +6,13 @@ function(input, output, session) {
   valid_users <- data.frame(
     user = c(
       Sys.getenv("AGROFIT_USER_1"),
-      Sys.getenv("AGROFIT_USER_2")
+      Sys.getenv("AGROFIT_USER_2"),
+      Sys.getenv("AGROFIT_USER_3")
     ),
     password = c(
       Sys.getenv("AGROFIT_PASS_1"),
-      Sys.getenv("AGROFIT_PASS_2")
+      Sys.getenv("AGROFIT_PASS_2"),
+      Sys.getenv("AGROFIT_PASS_3")
     ),
     stringsAsFactors = FALSE
   )
@@ -20,8 +22,8 @@ function(input, output, session) {
     if (!user_auth$logged_in) {
       div(
         class = "login-box",
-        img(src = "nova_logomm.png", height = 80),
-        tags$h3("Acesse o Consulta Agrofit"),
+        img(src = "nova_logomm.png", height = 100),
+        tags$h3("Acesse o Agrofito"),
         br(),
         p("A MelonMundi oferece soluções inovadoras para melhorar o dia a dia do agricultor."),
         br(),

@@ -37,8 +37,7 @@ body {
   font-weight:700; 
   color: var(--primary); 
   margin-bottom:12px; 
-  font-size:16px;
-  border-left: 5px solid var(--secondary);
+  font-size:24px;
   padding-left: 8px;
 }
 
@@ -64,7 +63,7 @@ body {
 .btn {
   background-color: var(--primary); 
   color:white; 
-  border-radius:8px; 
+  border-radius:2px; 
   padding:8px 16px;
   font-weight:600;
   border:none;
@@ -114,7 +113,7 @@ table.dataTable tr:hover {
 
 /* -------------------- RODAPÉ -------------------- */
 footer {
-  background-color: white;
+/*  background-color: white;*/
   color: #6c757d;
   padding: 10px 20px;
   text-align: center;
@@ -125,7 +124,7 @@ footer {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border-top: 3px solid var(--primary);
+  /*border-top: 3px solid var(--primary);*/
 }
 
 footer img {
@@ -170,7 +169,7 @@ footer img {
 
 .info-box p.title {
   margin: 6px 0;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
   color: var(--primary);
   text-align: center;
@@ -215,7 +214,7 @@ footer img {
 /* -------------------- NAVBAR -------------------- */
 .navbar-default {
   background-color: white;
-  border-color: #ddd;
+  /*border-color: #ddd;*/
   padding: 8px 16px;
   
 }
@@ -241,6 +240,26 @@ footer img {
   border-radius: 20px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
+
+/* REMOVER BORDA CINZA DO BOTÃO HAMBURGER */
+.navbar-default .navbar-toggle {
+  border: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Remover fundo ao passar o mouse ou focar */
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: transparent !important;
+  outline: none !important;
+}
+
+/* Cor das barras do hamburger */
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #548238;
+}
+
   
 @media (max-width: 768px) {
   .navbar-default .navbar-nav > li > a {
@@ -274,4 +293,4 @@ footer img {
       .login-error {color: red; font-size: 14px; margin-bottom: 10px;}
       
       
-      
+  
