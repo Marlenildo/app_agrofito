@@ -35,8 +35,8 @@ fluidPage(
       
       # ---- Consulta ----
       tabPanel(
-        "Consulta",
-        span(class = "panel-title", icon("search"), "Consulta por cultura"),
+        title = tagList(icon("search"), "Consulta"),
+        span(class = "panel-title", "Consulta por cultura"),
         tags$p(
           "Consulte todos os produtos registrados no Sistema de Agrotóxicos Fitossanitários (AGROFIT) do Ministério da Agricultura, Pecuária e Abastecimento (MAPA)."
         ),
@@ -69,8 +69,8 @@ fluidPage(
       
       # ---- Versão ----
       tabPanel(
-        "Versão dos dados",
-        span(class = "panel-title", icon("info-circle"), "Versão dos Dados"),
+        title = tagList(icon("info-circle"), "Versão dos dados"),
+        span(class = "panel-title", "Versão dos Dados"),
         tags$p(
           "Aqui você encontra a data da última atualização dos dados disponíveis no Sistema de Agrotóxicos Fitossanitários (AGROFIT) do Ministério da Agricultura, Pecuária e Abastecimento (MAPA), bem como a fonte oficial de pesquisa."
         ),
@@ -100,7 +100,9 @@ fluidPage(
       ),
       
       # ---- Aviso Legal ----
-      tabPanel("Aviso Legal", div(
+      tabPanel(
+        title = tagList(icon("balance-scale"), "Aviso Legal"),
+        div(
         class = "info-box",
         p(class = "title", "⚖️ Aviso Legal"),
         p(

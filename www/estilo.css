@@ -38,7 +38,6 @@ body {
   color: var(--primary); 
   margin-bottom:12px; 
   font-size:24px;
-  padding-left: 8px;
 }
 
 /* -------------------- LABELS -------------------- */
@@ -246,6 +245,7 @@ footer img {
   border: none !important;
   background-color: transparent !important;
   box-shadow: none !important;
+  float: right;
 }
 
 /* Remover fundo ao passar o mouse ou focar */
@@ -294,3 +294,32 @@ footer img {
       
       
   
+  
+  /* ESPAÇO ENTRE ÍCONE E TEXTO NA NAVBAR */
+.navbar-default .navbar-nav > li > a i {
+  margin-right: 6px;
+}
+
+
+/* ============================
+   NAVBAR BRAND — CENTRALIZAÇÃO CORRETA
+   ============================ */
+
+/* Mantém comportamento padrão do Bootstrap */
+.navbar-default .navbar-header {
+  position: relative;
+}
+
+/* Centraliza verticalmente LOGO + TEXTO */
+.navbar-default .navbar-brand {
+  display: flex;
+  align-items: center;     /* centralização vertical */
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 50px;            /* igual à altura padrão da navbar */
+}
+
+/* Espaço entre BRAND e MENU */
+.navbar-default .navbar-brand {
+  margin-right: 30px;
+}
