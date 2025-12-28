@@ -1,3 +1,6 @@
+/* =========================================================
+   DESIGN SYSTEM — VARIÁVEIS GLOBAIS
+   ========================================================= */
 :root {
   --primary: #548238;
   --secondary: #ffc000;
@@ -7,7 +10,9 @@
   --warning-border: #ffeeba;
 }
 
-/* -------------------- BASE -------------------- */
+/* =========================================================
+   BASE GLOBAL
+   ========================================================= */
 body { 
   background: var(--bg-light); 
   font-family: Arial, 'Segoe UI', Roboto, sans-serif; 
@@ -16,7 +21,9 @@ body {
   padding: 0;
 }
 
-/* -------------------- BOX DE ENTRADA -------------------- */
+/* =========================================================
+   CONTAINERS / BOXES
+   ========================================================= */
 .input-box {
   background: #ffffff; 
   border-radius: 12px; 
@@ -25,22 +32,23 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
-/* -------------------- DESCRIÇÃO DENTRO DO INPUT BOX -------------------- */
+/* Texto auxiliar dentro dos boxes */
 .input-box p {
-  color: #333;   /* verde combinando com borda e título */
+  color: #333;
   font-size: 14px;
   margin-bottom: 8px;
 }
 
-
+/* =========================================================
+   TÍTULOS E LABELS
+   ========================================================= */
 .panel-title { 
-  font-weight:700; 
+  font-weight: 700; 
   color: var(--primary); 
-  margin-bottom:12px; 
-  font-size:24px;
+  margin-bottom: 12px; 
+  font-size: 24px;
 }
 
-/* -------------------- LABELS -------------------- */
 .form-group label { 
   color: var(--primary); 
   font-weight: 600; 
@@ -48,7 +56,9 @@ body {
   display: block;
 }
 
-/* -------------------- INPUTS & SELECTS - FOCO -------------------- */
+/* =========================================================
+   INPUTS & SELECTS — FOCO
+   ========================================================= */
 .shiny-input-container select:focus,
 .shiny-input-container textarea:focus,
 .selectize-input.focus {
@@ -58,14 +68,16 @@ body {
   transition: 0.3s;
 }
 
-/* -------------------- BOTÕES -------------------- */
+/* =========================================================
+   BOTÕES
+   ========================================================= */
 .btn {
   background-color: var(--primary); 
-  color:white; 
-  border-radius:2px; 
-  padding:8px 16px;
-  font-weight:600;
-  border:none;
+  color: white; 
+  border-radius: 2px; 
+  padding: 8px 16px;
+  font-weight: 600;
+  border: none;
   transition: 0.2s;
 }
 
@@ -74,11 +86,13 @@ body {
   color: var(--text-dark);
 }
 
-/* -------------------- TABELAS -------------------- */
+/* =========================================================
+   TABELAS (DT)
+   ========================================================= */
 table.dataTable th {
   background-color: var(--primary) !important;
   color: white !important;
-  text-align:center;
+  text-align: center;
 }
 
 table.dataTable td {
@@ -90,54 +104,40 @@ table.dataTable tr:nth-child(even) {
 }
 
 table.dataTable tr:hover {
-  background-color: #fff7d6; /* amarelo claro no hover */
+  background-color: #fff7d6;
 }
 
 .dataTables_wrapper {
   width: 100%;
-  overflow-x: auto; /* barra de rolagem horizontal para telas pequenas */
+  overflow-x: auto;
 }
 
-/* -------------------- RESULT BOX -------------------- */
+/* =========================================================
+   RESULT BOX
+   ========================================================= */
 .result-box {
   background: var(--secondary); 
   color: var(--text-dark); 
-  font-size:18px; 
-  font-weight:600;
-  border-radius:10px; 
-  padding:14px; 
-  text-align:center;
-  margin-top:12px;
-}
-
-/* -------------------- RODAPÉ -------------------- */
-footer {
-/*  background-color: white;*/
-  color: #6c757d;
-  padding: 10px 20px;
+  font-size: 18px; 
+  font-weight: 600;
+  border-radius: 10px; 
+  padding: 14px; 
   text-align: center;
-  bottom: 0;
-  width: 100%;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  /*border-top: 3px solid var(--primary);*/
+  margin-top: 12px;
 }
 
-footer img {
-  height: 30px;
-}
-
-/* -------------------- TEXTO EXPLICATIVO -------------------- */
+/* =========================================================
+   TEXTO EXPLICATIVO
+   ========================================================= */
 .texto-explicativo {
   color: #6c757d;
   font-size: 14px;
   margin-bottom: 10px;
 }
 
-/* -------------------- VERSAO / BANNER -------------------- */
+/* =========================================================
+   VERSIONAMENTO / BANNERS
+   ========================================================= */
 .version-banner {
   background-color: var(--primary);
   color: white;
@@ -153,7 +153,9 @@ footer img {
   text-decoration: underline;
 }
 
-/* -------------------- INFO BOX / ALERT -------------------- */
+/* =========================================================
+   INFO BOX / AVISOS
+   ========================================================= */
 .info-box {
   border: 1px solid var(--warning-border);
   border-left: 6px solid var(--secondary);
@@ -186,7 +188,9 @@ footer img {
   color: darkgreen;
 }
 
-/* -------------------- VERSAO BOX -------------------- */
+/* =========================================================
+   VERSÃO / METADADOS
+   ========================================================= */
 #versao_box {
   background-color: #eaf4e0;
   border-left: 6px solid var(--primary);
@@ -210,14 +214,15 @@ footer img {
   text-decoration: underline;
 }
 
-/* -------------------- NAVBAR -------------------- */
+/* =========================================================
+   NAVBAR — ESTRUTURA GERAL
+   ========================================================= */
 .navbar-default {
   background-color: white;
-  /*border-color: #ddd;*/
   padding: 8px 16px;
-  
 }
 
+/* Links da navbar */
 .navbar-default .navbar-nav > li > a {
   color: #548238;
   border-radius: 10px;
@@ -226,12 +231,14 @@ footer img {
   transition: all 0.3s ease;
 }
 
+/* Hover */
 .navbar-default .navbar-nav > li > a:hover {
   background-color: #d1e7c4;
   color: #548238;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
+/* Aba ativa */
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:focus {
   background-color: #548238;
@@ -240,7 +247,9 @@ footer img {
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-/* REMOVER BORDA CINZA DO BOTÃO HAMBURGER */
+/* =========================================================
+   NAVBAR — HAMBURGER
+   ========================================================= */
 .navbar-default .navbar-toggle {
   border: none !important;
   background-color: transparent !important;
@@ -248,24 +257,10 @@ footer img {
   float: right;
 }
 
-/* Remover fundo ao passar o mouse ou focar */
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
   background-color: transparent !important;
   outline: none !important;
-}
-
-/* Cor das barras do hamburger */
-.navbar-default .navbar-toggle .icon-bar {
-  background-color: #548238;
-}
-
-  
-@media (max-width: 768px) {
-  .navbar-default .navbar-nav > li > a {
-    margin: 3px 2px;
-    padding: 10px 14px;
-  }
 }
 
 .navbar-default .navbar-toggle .icon-bar {
@@ -276,7 +271,42 @@ footer img {
   background-color: #3a5d27;
 }
 
-/* -------------------- INTRO TEXT -------------------- */
+/* =========================================================
+   NAVBAR — ÍCONES
+   ========================================================= */
+.navbar-default .navbar-nav > li > a i {
+  margin-right: 6px;
+}
+
+/* =========================================================
+   NAVBAR — BRAND (LOGO + TEXTO)
+   ========================================================= */
+.navbar-default .navbar-header {
+  position: relative;
+}
+
+.navbar-default .navbar-brand {
+  display: flex;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 50px;
+  margin-right: 30px;
+}
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+@media (max-width: 768px) {
+  .navbar-default .navbar-nav > li > a {
+    margin: 3px 2px;
+    padding: 10px 14px;
+  }
+}
+
+/* =========================================================
+   INTRO TEXT
+   ========================================================= */
 .intro-text {
   background-color: white;
   padding: 10px 15px;
@@ -286,40 +316,63 @@ footer img {
   font-size: 14px;
 }
 
-      .login-box {width: 400px; margin: 100px auto; padding: 30px; border-radius: 10px; background-color: #ffffff; box-shadow: 0px 0px 15px #ccc; text-align: center;}
-      .login-box img {margin-bottom: 20px;}
-      .login-box input {width: 100%; margin-bottom: 15px; padding: 10px; border-radius: 5px; border: 1px solid #ccc;}
-      .login-box button {width: 100%; padding: 10px; border-radius: 5px; border: none; background-color: #548238; color: white; font-weight: bold;}
-      .login-error {color: red; font-size: 14px; margin-bottom: 10px;}
-      
-      
-  
-  
-  /* ESPAÇO ENTRE ÍCONE E TEXTO NA NAVBAR */
-.navbar-default .navbar-nav > li > a i {
-  margin-right: 6px;
+/* =========================================================
+   LOGIN
+   ========================================================= */
+.login-box {
+  width: 400px;
+  margin: 100px auto;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 15px #ccc;
+  text-align: center;
 }
 
-
-/* ============================
-   NAVBAR BRAND — CENTRALIZAÇÃO CORRETA
-   ============================ */
-
-/* Mantém comportamento padrão do Bootstrap */
-.navbar-default .navbar-header {
-  position: relative;
+.login-box img {
+  margin-bottom: 20px;
 }
 
-/* Centraliza verticalmente LOGO + TEXTO */
-.navbar-default .navbar-brand {
+.login-box input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #548238;
+  color: white;
+  font-weight: bold;
+}
+
+.login-error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* =========================================================
+   RODAPÉ
+   ========================================================= */
+footer {
+  color: #6c757d;
+  padding: 10px 20px;
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+
   display: flex;
-  align-items: center;     /* centralização vertical */
-  padding-top: 0;
-  padding-bottom: 0;
-  height: 50px;            /* igual à altura padrão da navbar */
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-/* Espaço entre BRAND e MENU */
-.navbar-default .navbar-brand {
-  margin-right: 30px;
+footer img {
+  height: 30px;
 }
