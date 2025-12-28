@@ -70,7 +70,7 @@ fluidPage(
       # ---- Versão ----
       tabPanel(
         title = tagList(icon("info-circle"), "Versão dos dados"),
-        span(class = "panel-title", "Versão dos Dados"),
+        span(class = "panel-title", "Versão dos dados"),
         tags$p(
           "Aqui você encontra a data da última atualização dos dados disponíveis no Sistema de Agrotóxicos Fitossanitários (AGROFIT) do Ministério da Agricultura, Pecuária e Abastecimento (MAPA), bem como a fonte oficial de pesquisa."
         ),

@@ -20,12 +20,12 @@ function(input, output, session) {
   
   output$login_ui <- renderUI({
     if (!user_auth$logged_in) {
-      div(
+      fluidRow(
         class = "login-box",
         img(src = "nova_logomm.png", height = 100),
-        tags$h3("Acesse o Agrofito"),
-        br(),
         p("A MelonMundi oferece soluções inovadoras para melhorar o dia a dia do agricultor."),
+        br(),
+        tags$h2("Acesse o Agrofito"),
         br(),
         if (user_auth$login_fail) div(class = "login-error", "Usuário ou senha incorretos"),
         column(12, textInput("user", "Digite seu usuário:")),
