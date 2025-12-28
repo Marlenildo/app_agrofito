@@ -5,7 +5,7 @@ app_footer <- function() {
       height = "40px",
       style = "vertical-align: middle; margin-right: 8px;"
     ),
-    paste0("© 2025 MelonMundi - Global Solutions | Agrofito ", APP_VERSION)
+    paste0("© 2025 MelonMundi - Global Solutions | Agrofito v", APP_VERSION)
   )
 }
 
