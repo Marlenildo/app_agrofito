@@ -21,19 +21,24 @@ function(input, output, session) {
   output$login_ui <- renderUI({
     if (!user_auth$logged_in) {
       fluidRow(
-        class = "login-box",
-        img(src = "nova_logomm.png", height = 100),
-        p("A MelonMundi oferece soluções inovadoras para melhorar o dia a dia do agricultor."),
-        br(),
-        tags$h2("Acesse o Agrofito"),
-        br(),
-        if (user_auth$login_fail) div(class = "login-error", "Usuário ou senha incorretos"),
-        column(12, textInput("user", "Digite seu usuário:")),
-        column(12, passwordInput("pass", "Digite sua senha:")),
-        actionButton("login_btn", "Entrar")
+        class = "login-wrapper",
+        fluidRow(
+          class = "login-box",
+          img(src = "nova_logomm.png", height = 90),
+          p("A MelonMundi oferece soluções inovadoras para melhorar o dia a dia do agricultor."),
+          tags$h2("Acesse o Agrofito"),
+          
+          if (user_auth$login_fail)
+            div(class = "login-error", "Usuário ou senha incorretos"),
+          
+          textInput("user", NULL, placeholder = "Usuário",width = "100%"),
+          passwordInput("pass", NULL, placeholder = "Senha",width = "100%"),
+          actionButton("login_btn", "Entrar", class = "login-btn")
+        )
       )
     }
   })
+  
   
   output$loggedIn <- reactive({ user_auth$logged_in })
   outputOptions(output, "loggedIn", suspendWhenHidden = FALSE)
