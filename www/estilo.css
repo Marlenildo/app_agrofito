@@ -292,7 +292,17 @@ table.dataTable tr:hover {
   padding-bottom: 0;
   height: 50px;
   margin-right: 30px;
+
+  /* 🔽 CONTROLE DO TEXTO */
+  font-size: 24px;      /* <-- tamanho do nome Agrofito */
+  font-weight: bold;    /* opcional */
 }
+
+.navbar-default .navbar-brand img {
+  height: 40px;     /* <-- TAMANHO DA LOGO */
+  width: auto;
+}
+
 
 /* =========================================================
    RESPONSIVO
@@ -376,3 +386,16 @@ footer {
 footer img {
   height: 30px;
 }
+
+/* =========================================================
+   NAVBAR — FULL WIDTH SEM AFETAR O CONTEÚDO
+   ========================================================= */
+
+/* Faz a navbar "sangrar" até as bordas */
+.navbar {
+  margin-left: -15px;
+  margin-right: -15px;
+  border-radius: 0;
+}
+
+
