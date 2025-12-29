@@ -185,4 +185,42 @@ function(input, output, session) {
     )
   })
   
+  output$produtos_cards <- renderUI({
+    df <- produtos_reactive()
+    req(input$grupo, input$cultura)
+    
+    if (nrow(df) == 0) {
+      return(
+        div(class = "empty-box",
+            "Nenhum produto encontrado para os filtros selecionados.")
+      )
+    }
+    
+    df_filtrado <- df |>
+      filter(GRUPO == input$grupo) |>
+      distinct(
+        cultura,
+        classe_categoria_agronomica,
+        marca_comercial,
+        ingrediente_ativo,
+        prazo_de_seguranca
+      )
+    
+    tagList(
+      lapply(seq_len(nrow(df_filtrado)), function(i) {
+        produto <- df_filtrado[i, ]
+        
+        div(
+          class = "produto-card",
+          h4(produto$marca_comercial),
+          p(strong("Ingrediente ativo: "), produto$ingrediente_ativo),
+          p(strong("Classe: "), produto$classe_categoria_agronomica),
+          p(strong("Cultura: "), produto$cultura),
+          p(strong("Prazo de segurança: "), produto$prazo_de_seguranca)
+        )
+      })
+    )
+  })
+  
+  
 }
