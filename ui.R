@@ -62,9 +62,16 @@ fluidPage(
             selectize = TRUE
           )
         )),
-        fluidRow(column(
-          12, class = "input-box", withSpinner(DTOutput("produtos_table"), type = 6)
-        ))
+        # fluidRow(column(
+        #   12, class = "input-box", withSpinner(DTOutput("produtos_table"), type = 6)
+        # ))
+        fluidRow(
+          column(
+            12,
+            class = "input-box",
+            uiOutput("produtos_cards")
+          )
+        )
       ),
       
       # ---- Versão ----
