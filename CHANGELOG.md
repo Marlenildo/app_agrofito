@@ -6,7 +6,14 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
-## [1.3.0] – 2025-XX-XX
+## [1.3.1] – 2025-12-29
+
+### Changed
+- Navbar ajustada para ocupar toda a largura da tela
+- Refinamento do tamanho da logo
+- Ajuste tipográfico do nome Agrofito
+
+## [1.3.0] – 2025-12-28
 
 ### Added
 - Ícones nos títulos da navbar
