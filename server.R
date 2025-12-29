@@ -187,7 +187,7 @@ function(input, output, session) {
   
   output$produtos_cards <- renderUI({
     df <- produtos_reactive()
-    req(input$grupo, input$cultura)
+    req(input$grupo)
     
     if (nrow(df) == 0) {
       return(
@@ -198,29 +198,38 @@ function(input, output, session) {
     
     df_filtrado <- df |>
       filter(GRUPO == input$grupo) |>
-      distinct(
-        cultura,
-        classe_categoria_agronomica,
-        marca_comercial,
-        ingrediente_ativo,
-        prazo_de_seguranca
-      )
+      dplyr::select(any_of(c(
+        "cultura",
+        "classe_categoria_agronomica",
+        "marca_comercial",
+        "ingrediente_ativo",
+        "prazo_de_seguranca"
+      )))
     
     tagList(
       lapply(seq_len(nrow(df_filtrado)), function(i) {
         produto <- df_filtrado[i, ]
-        
         div(
           class = "produto-card",
-          h4(produto$marca_comercial),
-          p(strong("Ingrediente ativo: "), produto$ingrediente_ativo),
-          p(strong("Classe: "), produto$classe_categoria_agronomica),
-          p(strong("Cultura: "), produto$cultura),
-          p(strong("Prazo de segurança: "), produto$prazo_de_seguranca)
+          h4(to_text(produto$marca_comercial)),
+          p(strong("Ingrediente ativo: "),
+            to_text(produto$ingrediente_ativo)),
+          div(
+            class = "produto-classes",
+            classe_badges(produto$classe_categoria_agronomica)
+          ),
+          if ("cultura" %in% names(produto))
+            p(strong("Cultura: "),
+              to_text(produto$cultura)),
+          if ("prazo_de_seguranca" %in% names(produto))
+            p(strong("Prazo de segurança: "),
+              to_text(produto$prazo_de_seguranca))
         )
+        
       })
     )
   })
+  
   
   
 }

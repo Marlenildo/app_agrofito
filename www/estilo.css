@@ -405,7 +405,7 @@ footer img {
    PRODUTO CARD
    ========================================================= */
 .produto-card {
-  background: #ffffff;
+  background: #f7f7f7;
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 12px;
@@ -416,9 +416,50 @@ footer img {
   color: var(--primary);
   margin-top: 0;
   margin-bottom: 8px;
+  font-weight: bold;
 }
 
 .produto-card p {
   margin: 4px 0;
   font-size: 14px;
+}
+
+
+/* ===============================
+   BADGES — CLASSES AGRONÔMICAS
+   =============================== */
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  margin: 4px 6px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 20px;
+  color: white;
+  white-space: nowrap;
+}
+
+.badge-fungicida {
+  background-color: #4CAF50;
+}
+
+.badge-inseticida {
+  background-color: #FF9800;
+}
+
+.badge-herbicida {
+  background-color: #2196F3;
+}
+
+.badge-acaricida {
+  background-color: #E53935;
+}
+
+.badge-biologico {
+  background-color: #009688;
+}
+
+.badge-outros {
+  background-color: #9E9E9E;
 }

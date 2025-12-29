@@ -119,3 +119,64 @@ APP_VERSION <- tryCatch(
   readLines("VERSION", warn = FALSE)[1],
   error = function(e) "dev"
 )
+
+to_text <- function(x) {
+  if (is.null(x) || length(x) == 0) return("Não informado")
+  
+  # Caso 1: vetor real
+  if (is.atomic(x) && length(x) > 1) {
+    return(paste(x, collapse = ", "))
+  }
+  
+  x <- as.character(x)
+  
+  # Caso 2: string no formato c("A","B")
+  if (grepl("^c\\(", x)) {
+    x <- gsub('^c\\(|\\)$', '', x)
+    x <- gsub('"', '', x)
+    return(x)
+  }
+  
+  x
+}
+
+classe_badges <- function(x) {
+  
+  if (is.null(x) || length(x) == 0) return(NULL)
+  
+  # 🔧 Normalização TOTAL para character vector
+  if (is.list(x)) {
+    x <- unlist(x, use.names = FALSE)
+  }
+  
+  x <- as.character(x)
+  
+  # Caso venha como string "c('A','B')"
+  if (length(x) == 1 && grepl("^c\\(", x)) {
+    x <- gsub('^c\\(|\\)$', '', x)
+    x <- gsub('"', '', x)
+    x <- strsplit(x, ",\\s*")[[1]]
+  }
+  
+  x <- trimws(x)
+  x <- x[x != ""]
+  
+  if (length(x) == 0) return(NULL)
+  
+  tagList(
+    lapply(x, function(classe) {
+      
+      classe_css <- switch(
+        tolower(classe),
+        "fungicida"   = "badge-fungicida",
+        "inseticida"  = "badge-inseticida",
+        "herbicida"   = "badge-herbicida",
+        "acaricida"   = "badge-acaricida",
+        "biológico"   = "badge-biologico",
+        "badge-outros"
+      )
+      
+      span(class = paste("badge", classe_css), classe)
+    })
+  )
+}
