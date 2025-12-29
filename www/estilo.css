@@ -15,11 +15,13 @@
    ========================================================= */
 body { 
   background: var(--bg-light); 
-  font-family: Arial, 'Segoe UI', Roboto, sans-serif; 
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Roboto, Arial, sans-serif; 
   color: var(--text-dark); 
   margin: 0;
   padding: 0;
 }
+
 
 /* =========================================================
    CONTAINERS / BOXES
@@ -43,11 +45,12 @@ body {
    TÍTULOS E LABELS
    ========================================================= */
 .panel-title { 
-  font-weight: 700; 
-  color: var(--primary); 
-  margin-bottom: 12px; 
+  font-weight: 800;
+  color: var(--primary);
   font-size: 24px;
+  letter-spacing: -0.01em;
 }
+
 
 .form-group label { 
   color: var(--primary); 
@@ -131,7 +134,7 @@ table.dataTable tr:hover {
    ========================================================= */
 .texto-explicativo {
   color: #6c757d;
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 10px;
 }
 
@@ -220,6 +223,7 @@ table.dataTable tr:hover {
 .navbar-default {
   background-color: white;
   padding: 8px 16px;
+  font-family: 'Inter', sans-serif;
 }
 
 /* Links da navbar */
@@ -294,12 +298,13 @@ table.dataTable tr:hover {
   margin-right: 30px;
 
   /* 🔽 CONTROLE DO TEXTO */
-  font-size: 24px;      /* <-- tamanho do nome Agrofito */
-  font-weight: bold;    /* opcional */
+  font-size: 18px;      /* <-- tamanho do nome Agrofito */
+  font-weight: 600;    /* opcional */
+  letter-spacing: -0.01em;
 }
 
 .navbar-default .navbar-brand img {
-  height: 40px;     /* <-- TAMANHO DA LOGO */
+  height: 32px;     /* <-- TAMANHO DA LOGO */
   width: auto;
 }
 
@@ -405,24 +410,31 @@ footer img {
    PRODUTO CARD
    ========================================================= */
 .produto-card {
-  background: #f7f7f7;
+  background: #F7F9FB;
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.produto-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.produto-card p {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #374151;
 }
 
 .produto-card h4 {
   color: var(--primary);
-  margin-top: 0;
-  margin-bottom: 8px;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 600;
 }
 
-.produto-card p {
-  margin: 4px 0;
-  font-size: 14px;
-}
 
 
 /* ===============================
@@ -433,12 +445,13 @@ footer img {
   display: inline-block;
   padding: 4px 10px;
   margin: 4px 6px 0 0;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  border-radius: 20px;
+  border-radius: 999px;
   color: white;
   white-space: nowrap;
 }
+
 
 .badge-fungicida {
   background-color: #4CAF50;
@@ -462,4 +475,89 @@ footer img {
 
 .badge-outros {
   background-color: #9E9E9E;
+}
+
+
+.shiny-input-radiogroup label {
+  margin-right: 15px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   VIEW TOGGLE — TABELA / CARDS
+   ========================================================= */
+.view-toggle {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* Botão base */
+.view-btn {
+  border: 2px solid var(--primary);
+  background-color: white;
+  color: var(--primary);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Ícone */
+.view-btn i {
+  margin-right: 6px;
+}
+
+/* Hover */
+.view-btn:hover {
+  background-color: #e6f2e3;
+}
+
+/* Ativo */
+.view-btn.active {
+  background-color: var(--primary);
+  color: white;
+}
+
+
+/* =========================================================
+   VIEW SWITCH — SEGMENTED CONTROL
+   ========================================================= */
+.view-switch {
+  display: inline-flex;
+  background-color: #f1f3f5;
+  border-radius: 999px;
+  padding: 4px;
+  gap: 4px;
+}
+
+/* Botão base */
+.view-pill {
+  border: none;
+  background: transparent;
+  color: #555;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Ícone */
+.view-pill i {
+  margin-right: 6px;
+}
+
+/* Hover */
+.view-pill:hover {
+  background-color: #e2e6ea;
+}
+
+/* Ativo */
+.view-pill.active {
+  background-color: white;
+  color: var(--primary);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
 }

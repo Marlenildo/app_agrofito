@@ -1,5 +1,5 @@
 library(shiny)
-# library(DT)
+library(DT)
 library(shinycssloaders)
 library(httr)
 library(httr2)

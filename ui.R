@@ -11,9 +11,26 @@ app_footer <- function() {
 
 
 fluidPage(
+  useShinyjs(),
   tags$head(
+    tags$link(
+      rel = "preconnect",
+      href = "https://fonts.googleapis.com"
+    ),
+    tags$link(
+      rel = "preconnect",
+      href = "https://fonts.gstatic.com",
+      crossorigin = "anonymous"
+    ),
+    tags$link(
+      rel = "stylesheet",
+      href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    ),
     includeCSS("www/estilo.css"),
-    tags$link(rel = "stylesheet", href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+    tags$link(
+      rel = "stylesheet",
+      href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    )
   ),
   
   # Tela de login
@@ -69,9 +86,27 @@ fluidPage(
           column(
             12,
             class = "input-box",
-            uiOutput("produtos_cards")
+            div(
+              class = "view-switch",
+              
+              actionButton(
+                "btn_table",
+                tagList(icon("table"), "Tabela"),
+                class = "view-pill active"
+              ),
+              
+              actionButton(
+                "btn_cards",
+                tagList(icon("rectangle-list"), "Lista"),
+                class = "view-pill"
+              )
+            ),
+            br(),
+            br(),
+            uiOutput("result_view")
           )
         )
+        
       ),
       
       # ---- Versão ----

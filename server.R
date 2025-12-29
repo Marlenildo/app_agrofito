@@ -129,61 +129,84 @@ function(input, output, session) {
     updateSelectInput(session, "grupo", choices = grupos, selected = grupos[1])
   })
   
-  # output$produtos_table <- renderDT({
-  #   df <- produtos_reactive()
-  #   req(input$grupo, input$cultura)
-  #   
-  #   if (nrow(df) == 0) {
-  #     df_filtrado <- tibble(
-  #       cultura = character(),
-  #       classe_categoria_agronomica = character(),
-  #       marca_comercial = character(),
-  #       ingrediente_ativo = character(),
-  #       prazo_de_seguranca = character()
-  #     )
-  #   } else {
-  #     df_filtrado <- df |>
-  #       filter(GRUPO == input$grupo) |>
-  #       dplyr::select(any_of(
-  #         c("cultura",
-  #           "classe_categoria_agronomica",
-  #           "marca_comercial",
-  #           "ingrediente_ativo",
-  #           "prazo_de_seguranca")
-  #       )) |>
-  #       distinct()
-  #   }
-  #   
-  #   n <- nrow(df_filtrado)
-  #   datatable(
-  #     df_filtrado,
-  #     rownames = TRUE,
-  #     caption = paste0(
-  #       "Lista de ", toupper(input$grupo),
-  #       " disponíveis para ", input$cultura,
-  #       " — Quantidade de produtos distintos: ", n
-  #     ),
-  #     options = list(
-  #       dom = "Blfrtip",
-  #       pageLength = 10,
-  #       lengthMenu = list(
-  #         c(10, 25, 50, 100, -1),
-  #         c('10', '25', '50', '100', 'Todos')
-  #       ),
-  #       responsive = TRUE,
-  #       scrollX = TRUE,
-  #       buttons = c('copy', 'excel', 'pdf'),
-  #       language = list(
-  #         search = "Pesquisar:",
-  #         lengthMenu = "Mostrar _MENU_ registros",
-  #         info = "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-  #         zeroRecords = "Nenhum registro encontrado",
-  #         emptyTable = "Nenhum dado disponível na tabela"
-  #       )
-  #     ),
-  #     extensions = 'Buttons'
-  #   )
-  # })
+  
+  view_mode <- reactiveVal("table")
+  
+  observeEvent(input$btn_table, {
+    view_mode("table")
+  })
+  
+  observeEvent(input$btn_cards, {
+    view_mode("cards")
+  })
+  
+  observe({
+    if (view_mode() == "table") {
+      shinyjs::addClass("btn_table", "active")
+      shinyjs::removeClass("btn_cards", "active")
+    } else {
+      shinyjs::addClass("btn_cards", "active")
+      shinyjs::removeClass("btn_table", "active")
+    }
+  })
+  
+  
+  
+  output$produtos_table <- renderDT({
+    df <- produtos_reactive()
+    req(input$grupo, input$cultura)
+
+    if (nrow(df) == 0) {
+      df_filtrado <- tibble(
+        cultura = character(),
+        classe_categoria_agronomica = character(),
+        marca_comercial = character(),
+        ingrediente_ativo = character(),
+        prazo_de_seguranca = character()
+      )
+    } else {
+      df_filtrado <- df |>
+        filter(GRUPO == input$grupo) |>
+        dplyr::select(any_of(
+          c("cultura",
+            "classe_categoria_agronomica",
+            "marca_comercial",
+            "ingrediente_ativo",
+            "prazo_de_seguranca")
+        )) |>
+        distinct()
+    }
+
+    n <- nrow(df_filtrado)
+    datatable(
+      df_filtrado,
+      rownames = TRUE,
+      caption = paste0(
+        "Lista de ", toupper(input$grupo),
+        " disponíveis para ", input$cultura,
+        " — Quantidade de produtos distintos: ", n
+      ),
+      options = list(
+        dom = "Blfrtip",
+        pageLength = 10,
+        lengthMenu = list(
+          c(10, 25, 50, 100, -1),
+          c('10', '25', '50', '100', 'Todos')
+        ),
+        responsive = TRUE,
+        scrollX = TRUE,
+        buttons = c('copy', 'excel', 'pdf'),
+        language = list(
+          search = "Pesquisar:",
+          lengthMenu = "Mostrar _MENU_ registros",
+          info = "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+          zeroRecords = "Nenhum registro encontrado",
+          emptyTable = "Nenhum dado disponível na tabela"
+        )
+      ),
+      extensions = 'Buttons'
+    )
+  })
   
   output$produtos_cards <- renderUI({
     df <- produtos_reactive()
@@ -228,6 +251,14 @@ function(input, output, session) {
         
       })
     )
+  })
+  
+  output$result_view <- renderUI({
+    if (view_mode() == "table") {
+      withSpinner(DTOutput("produtos_table"), type = 6)
+    } else {
+      uiOutput("produtos_cards")
+    }
   })
   
   
