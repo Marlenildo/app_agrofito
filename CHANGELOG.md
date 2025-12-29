@@ -6,6 +6,17 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [1.4.0] - 2025-12-29
+
+### Added
+- Novo layout de login centralizado e responsivo
+- Padronização visual dos campos de usuário, senha e botão de acesso
+- Visualização em cards
+
+### Improved
+- Consistência visual do formulário de autenticação
+- Melhor experiência em dispositivos móveis
+
 ## [1.3.1] – 2025-12-29
 
 ### Changed
