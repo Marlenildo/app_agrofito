@@ -196,12 +196,9 @@ function(input, output, session) {
         responsive = TRUE,
         scrollX = TRUE,
         buttons = c('copy', 'excel', 'pdf'),
+        
         language = list(
-          search = "Pesquisar:",
-          lengthMenu = "Mostrar _MENU_ registros",
-          info = "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-          zeroRecords = "Nenhum registro encontrado",
-          emptyTable = "Nenhum dado disponível na tabela"
+          url = "//cdn.datatables.net/plug-ins/1.13.8/i18n/pt-BR.json"
         )
       ),
       extensions = 'Buttons'
