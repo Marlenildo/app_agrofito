@@ -160,7 +160,7 @@ function(input, output, session) {
   output$produtos_table <- renderDT({
     df <- produtos_reactive()
     req(input$grupo, input$cultura)
-
+    
     if (nrow(df) == 0) {
       df_filtrado <- tibble(
         cultura = character(),
@@ -179,17 +179,29 @@ function(input, output, session) {
             "ingrediente_ativo",
             "prazo_de_seguranca")
         )) |>
+        mutate(across(
+          everything(),
+          ~ {
+            if (is.list(.x)) {
+              sapply(.x, function(y) {
+                if (is.null(y)) NA_character_
+                else paste(unlist(y), collapse = ", ")
+              })
+            } else {
+              as.character(.x)
+            }
+          }
+        )) |>
         distinct()
     }
-
-    n <- nrow(df_filtrado)
+    
     datatable(
       df_filtrado,
       rownames = TRUE,
       caption = paste0(
         "Lista de ", toupper(input$grupo),
         " disponíveis para ", input$cultura,
-        " — Quantidade de produtos distintos: ", n
+        " — Quantidade de produtos distintos: ", nrow(df_filtrado)
       ),
       options = list(
         dom = "Blfrtip",
@@ -201,7 +213,6 @@ function(input, output, session) {
         responsive = TRUE,
         scrollX = TRUE,
         buttons = c('copy', 'excel', 'pdf'),
-        
         language = list(
           url = "//cdn.datatables.net/plug-ins/1.13.8/i18n/pt-BR.json"
         )
@@ -209,6 +220,7 @@ function(input, output, session) {
       extensions = 'Buttons'
     )
   })
+  
   
   output$produtos_cards <- renderUI({
     df <- produtos_reactive()
