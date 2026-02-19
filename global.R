@@ -13,7 +13,7 @@ library(sodium)
 library(shinyjs)
 
 # -------------------------------
-# Configuração da API Agrofit
+# ConfiguraÃ§Ã£o da API Agrofit
 # -------------------------------
 url_token <- "https://api.cnptia.embrapa.br/token"
 url_versao <- "https://api.cnptia.embrapa.br/agrofit/v1/versao"
@@ -24,7 +24,7 @@ consumer_key  <- Sys.getenv("CONSUMER_KEY")
 consumer_secret <- Sys.getenv("CONSUMER_SECRET")
 
 # -------------------------------
-# Funções auxiliares
+# FunÃ§Ãµes auxiliares
 # -------------------------------
 gerar_token <- function(consumer_key, consumer_secret) {
   res <- POST(
@@ -60,13 +60,13 @@ formatar_data <- function(data_iso) {
   for (f in formatos) {
     dt <- suppressWarnings(as.POSIXct(data_iso, format = f, tz = "America/Sao_Paulo"))
     if (!is.na(dt)) {
-      return(format(dt, "%d %b %Y às %H:%M"))
+      return(format(dt, "%d %b %Y Ã s %H:%M"))
     }
   }
   
   dt2 <- suppressWarnings(lubridate::ymd_hms(data_iso, tz = "America/Sao_Paulo"))
   if (!is.na(dt2)) {
-    return(format(dt2, "%d %b %Y às %H:%M"))
+    return(format(dt2, "%d %b %Y Ã s %H:%M"))
   }
   
   return(NA_character_)
@@ -78,9 +78,14 @@ buscar_produtos_cultura <- function(cultura, token) {
   todos <- list()
   
   repeat {
+    query_params <- list(page = pagina)
+    if (!is.null(cultura) && nzchar(cultura)) {
+      query_params$cultura <- cultura
+    }
+
     res <- GET(
       url = base_url,
-      query = list(cultura = cultura, page = pagina),
+      query = query_params,
       add_headers(Authorization = paste("Bearer", token))
     )
     
@@ -101,7 +106,7 @@ buscar_produtos_cultura <- function(cultura, token) {
 }
 
 # -------------------------------
-# Pré-carregamento
+# PrÃ©-carregamento
 # -------------------------------
 token <- gerar_token(consumer_key, consumer_secret)
 
@@ -113,7 +118,7 @@ dados_versao <- resp_body_json(res_versao, simplifyVector = TRUE)
 
 
 # -------------------------------
-# Versão do aplicativo
+# VersÃ£o do aplicativo
 # -------------------------------
 APP_VERSION <- tryCatch(
   readLines("VERSION", warn = FALSE)[1],
@@ -121,7 +126,7 @@ APP_VERSION <- tryCatch(
 )
 
 to_text <- function(x) {
-  if (is.null(x) || length(x) == 0) return("Não informado")
+  if (is.null(x) || length(x) == 0) return("NÃ£o informado")
   
   # Caso 1: vetor real
   if (is.atomic(x) && length(x) > 1) {
@@ -144,7 +149,7 @@ classe_badges <- function(x) {
   
   if (is.null(x) || length(x) == 0) return(NULL)
   
-  # 🔧 Normalização TOTAL para character vector
+  # ðŸ”§ NormalizaÃ§Ã£o TOTAL para character vector
   if (is.list(x)) {
     x <- unlist(x, use.names = FALSE)
   }
@@ -172,7 +177,7 @@ classe_badges <- function(x) {
         "inseticida"  = "badge-inseticida",
         "herbicida"   = "badge-herbicida",
         "acaricida"   = "badge-acaricida",
-        "biológico"   = "badge-biologico",
+        "biolÃ³gico"   = "badge-biologico",
         "badge-outros"
       )
       
