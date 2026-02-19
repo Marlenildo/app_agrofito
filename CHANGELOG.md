@@ -6,6 +6,11 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [1.4.5] - 2026-02-19
+
+### Fixed
+- Workflow de deploy (`.github/workflows/deploy-vps.yml`) ajustado para normalizar a chave SSH (`tr -d '\r'`) e validar formato com `ssh-keygen`, evitando erro `Load key ... error in libcrypto`.
+
 ## [1.4.4] - 2026-02-19
 
 ### Fixed

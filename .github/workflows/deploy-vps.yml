@@ -17,10 +17,9 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          cat > ~/.ssh/id_ed25519 <<'EOF'
-          ${{ secrets.PROD_SSH_KEY }}
-          EOF
+          printf "%s\n" "${{ secrets.PROD_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
+          ssh-keygen -lf ~/.ssh/id_ed25519 > /dev/null
           if [ -n "${{ secrets.PROD_SSH_KNOWN_HOSTS }}" ]; then
             printf "%s\n" "${{ secrets.PROD_SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
           else
