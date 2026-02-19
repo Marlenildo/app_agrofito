@@ -6,6 +6,15 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [1.4.2] - 2026-02-19
+
+### Added
+- Workflow de deploy para VPS em `.github/workflows/deploy-vps.yml`, acionado em push na `main`.
+
+### Changed
+- Publicacao do app em producao passou a sincronizar automaticamente via SSH executando `sync-prod-content.sh agrofito` no VPS.
+- Reinicio automatico do servico `shiny` apos sincronizacao para aplicar atualizacoes do app.
+
 ## [1.4.0] - 2025-12-29
 
 ### Added

@@ -1,0 +1,35 @@
+name: Deploy App Agrofito to VPS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Setup SSH key
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          cat > ~/.ssh/id_ed25519 <<'EOF'
+          ${{ secrets.PROD_SSH_KEY }}
+          EOF
+          chmod 600 ~/.ssh/id_ed25519
+          if [ -n "${{ secrets.PROD_SSH_KNOWN_HOSTS }}" ]; then
+            printf "%s\n" "${{ secrets.PROD_SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          else
+            ssh-keyscan -p "${{ secrets.PROD_SSH_PORT }}" "${{ secrets.PROD_SSH_HOST }}" >> ~/.ssh/known_hosts
+          fi
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Sync app content and restart shiny
+        shell: bash
+        run: |
+          ssh -o StrictHostKeyChecking=yes -p "${{ secrets.PROD_SSH_PORT }}" "${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }}" \
+            "chmod +x /opt/melonmundi-auth/scripts/sync-prod-content.sh && /opt/melonmundi-auth/scripts/sync-prod-content.sh agrofito && cd /opt/melonmundi-auth && docker compose --env-file env/prod.env -f docker/docker-compose.prod.yml restart shiny"
