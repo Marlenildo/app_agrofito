@@ -5,7 +5,7 @@ app_footer <- function() {
       height = "40px",
       style = "vertical-align: middle; margin-right: 8px;"
     ),
-    paste0("© 2025 MelonMundi - Global Solutions | Agrofito v", APP_VERSION)
+    paste0("Â© 2025 MelonMundi - Global Solutions | Agrofito v", APP_VERSION)
   )
 }
 
@@ -33,12 +33,6 @@ fluidPage(
     )
   ),
   
-  # Tela de login
-  uiOutput("login_ui"),
-  
-  # Conteúdo principal só aparece se logado
-  conditionalPanel(
-    condition = "output.loggedIn == true",
     navbarPage(
       title = tags$div(
         style = "display:flex; align-items:center; justify-content:center;",
@@ -55,12 +49,12 @@ fluidPage(
         title = tagList(icon("search"), "Consulta"),
         span(class = "panel-title", "Consulta por cultura"),
         tags$p(
-          "Consulte todos os produtos registrados no Sistema de Agrotóxicos Fitossanitários (AGROFIT) do Ministério da Agricultura, Pecuária e Abastecimento (MAPA)."
+          "Consulte todos os produtos registrados no Sistema de AgrotÃ³xicos FitossanitÃ¡rios (AGROFIT) do MinistÃ©rio da Agricultura, PecuÃ¡ria e Abastecimento (MAPA)."
         ),
         tags$p(
-          "É possível pesquisar por cultura e classe de produto, e obter informações detalhadas sobre cada produto, incluindo cultura, classe agronômica, marca comercial, ingrediente ativo e prazo de segurança."
+          "Ã‰ possÃ­vel pesquisar por cultura e classe de produto, e obter informaÃ§Ãµes detalhadas sobre cada produto, incluindo cultura, classe agronÃ´mica, marca comercial, ingrediente ativo e prazo de seguranÃ§a."
         ),
-        tags$p("Filtre sua consulta por cultura e classe agronômica."),
+        tags$p("Filtre sua consulta por cultura e classe agronÃ´mica."),
         br(),
         fluidRow(class = "input-box", column(
           6,
@@ -109,17 +103,17 @@ fluidPage(
         
       ),
       
-      # ---- Versão ----
+      # ---- VersÃ£o ----
       tabPanel(
-        title = tagList(icon("info-circle"), "Versão dos dados"),
-        span(class = "panel-title", "Versão dos dados"),
+        title = tagList(icon("info-circle"), "VersÃ£o dos dados"),
+        span(class = "panel-title", "VersÃ£o dos dados"),
         tags$p(
-          "Aqui você encontra a data da última atualização dos dados disponíveis no Sistema de Agrotóxicos Fitossanitários (AGROFIT) do Ministério da Agricultura, Pecuária e Abastecimento (MAPA), bem como a fonte oficial de pesquisa."
+          "Aqui vocÃª encontra a data da Ãºltima atualizaÃ§Ã£o dos dados disponÃ­veis no Sistema de AgrotÃ³xicos FitossanitÃ¡rios (AGROFIT) do MinistÃ©rio da Agricultura, PecuÃ¡ria e Abastecimento (MAPA), bem como a fonte oficial de pesquisa."
         ),
         br(),
         div(
           id = "versao_box",
-          p(strong("Órgão mantenedor: "), dados_versao$mantenedor),
+          p(strong("Ã“rgÃ£o mantenedor: "), dados_versao$mantenedor),
           p(
             strong("Link para o AGROFIT: "),
             a(href = dados_versao$fonte, target = "_blank", dados_versao$fonte)
@@ -133,7 +127,7 @@ fluidPage(
             )
           ),
           p(
-            strong("Última atualização dos dados no AGROFIT: "),
+            strong("Ãšltima atualizaÃ§Ã£o dos dados no AGROFIT: "),
             formatar_data(dados_versao$data_ultima_atualizacao)
           )
         ),
@@ -146,15 +140,15 @@ fluidPage(
         title = tagList(icon("balance-scale"), "Aviso Legal"),
         div(
         class = "info-box",
-        p(class = "title", "⚖️ Aviso Legal"),
+        p(class = "title", "âš–ï¸ Aviso Legal"),
         p(
-          "As informações apresentadas neste relatório têm caráter exclusivamente informativo e não substituem, em hipótese alguma, as orientações técnicas, legais ou regulatórias emitidas pelos órgãos oficiais competentes."
+          "As informaÃ§Ãµes apresentadas neste relatÃ³rio tÃªm carÃ¡ter exclusivamente informativo e nÃ£o substituem, em hipÃ³tese alguma, as orientaÃ§Ãµes tÃ©cnicas, legais ou regulatÃ³rias emitidas pelos Ã³rgÃ£os oficiais competentes."
         ),
         p(
-          "A MelonMundi exime-se de qualquer responsabilidade por eventuais danos, prejuízos ou consequências decorrentes da interpretação, aplicação ou uso inadequado dos produtos químicos aqui listados, incluindo defensivos agrícolas, fertilizantes, produtos biológicos e demais insumos."
+          "A MelonMundi exime-se de qualquer responsabilidade por eventuais danos, prejuÃ­zos ou consequÃªncias decorrentes da interpretaÃ§Ã£o, aplicaÃ§Ã£o ou uso inadequado dos produtos quÃ­micos aqui listados, incluindo defensivos agrÃ­colas, fertilizantes, produtos biolÃ³gicos e demais insumos."
         ),
         p(
-          "Reforçamos que a fonte oficial para consulta, validação e atualização de informações sobre produtos fitossanitários é o portal do Sistema de Agrotóxicos Fitossanitários (AGROFIT) do Ministério da Agricultura, Pecuária e Abastecimento (MAPA), que pode ser acessado nesse link:",
+          "ReforÃ§amos que a fonte oficial para consulta, validaÃ§Ã£o e atualizaÃ§Ã£o de informaÃ§Ãµes sobre produtos fitossanitÃ¡rios Ã© o portal do Sistema de AgrotÃ³xicos FitossanitÃ¡rios (AGROFIT) do MinistÃ©rio da Agricultura, PecuÃ¡ria e Abastecimento (MAPA), que pode ser acessado nesse link:",
           a(
             href = "https://agrofit.agricultura.gov.br/agrofit_cons/principal_agrofit_cons",
             target = "_blank",
@@ -162,15 +156,14 @@ fluidPage(
           )
         ),
         p(
-          "É imprescindível que o usuário consulte as bulas e fichas técnicas dos produtos diretamente no portal Agrofit, verificando cuidadosamente as recomendações de uso, restrições, culturas autorizadas, doses e intervalos de segurança."
+          "Ã‰ imprescindÃ­vel que o usuÃ¡rio consulte as bulas e fichas tÃ©cnicas dos produtos diretamente no portal Agrofit, verificando cuidadosamente as recomendaÃ§Ãµes de uso, restriÃ§Ãµes, culturas autorizadas, doses e intervalos de seguranÃ§a."
         ),
         p(
-          "O usuário é integralmente responsável por verificar a conformidade legal, técnica e ambiental dos produtos antes de sua aquisição, recomendação ou utilização, observando sempre a legislação vigente e as boas práticas agrícolas."
+          "O usuÃ¡rio Ã© integralmente responsÃ¡vel por verificar a conformidade legal, tÃ©cnica e ambiental dos produtos antes de sua aquisiÃ§Ã£o, recomendaÃ§Ã£o ou utilizaÃ§Ã£o, observando sempre a legislaÃ§Ã£o vigente e as boas prÃ¡ticas agrÃ­colas."
         )
       ))
       
-    )
-  ),
-  # ✅ Footer sempre visível (login + app)
+    ),
+  # Footer
   app_footer()
 )

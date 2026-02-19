@@ -1,58 +1,5 @@
 function(input, output, session) {
   
-  # --- Login ---
-  user_auth <- reactiveValues(logged_in = FALSE, login_fail = FALSE)
-  
-  valid_users <- data.frame(
-    user = c(
-      Sys.getenv("AGROFIT_USER_1"),
-      Sys.getenv("AGROFIT_USER_2"),
-      Sys.getenv("AGROFIT_USER_3")
-    ),
-    password = c(
-      Sys.getenv("AGROFIT_PASS_1"),
-      Sys.getenv("AGROFIT_PASS_2"),
-      Sys.getenv("AGROFIT_PASS_3")
-    ),
-    stringsAsFactors = FALSE
-  )
-  
-  
-  output$login_ui <- renderUI({
-    if (!user_auth$logged_in) {
-      fluidRow(
-        class = "login-wrapper",
-        fluidRow(
-          class = "login-box",
-          img(src = "nova_logomm.png", height = 90),
-          p("A MelonMundi oferece soluções inovadoras para melhorar o dia a dia do agricultor."),
-          tags$h2("Acesse o Agrofito"),
-          
-          if (user_auth$login_fail)
-            div(class = "login-error", "Usuário ou senha incorretos"),
-          
-          textInput("user", NULL, placeholder = "Usuário",width = "100%"),
-          passwordInput("pass", NULL, placeholder = "Senha",width = "100%"),
-          actionButton("login_btn", "Entrar", class = "login-btn")
-        )
-      )
-    }
-  })
-  
-  
-  output$loggedIn <- reactive({ user_auth$logged_in })
-  outputOptions(output, "loggedIn", suspendWhenHidden = FALSE)
-  
-  observeEvent(input$login_btn, {
-    req(input$user, input$pass)
-    cred <- valid_users
-    if (any(cred$user == input$user & cred$password == input$pass)) {
-      user_auth$logged_in <- TRUE
-      user_auth$login_fail <- FALSE
-    } else {
-      user_auth$login_fail <- TRUE
-    }
-  })
   
   # -------------------------------
   # Carrega lista de culturas
@@ -69,7 +16,7 @@ function(input, output, session) {
   #                   choices = c("Todas as culturas", culturas),
   #                   selected = "Melancia")
   updateSelectInput(session, "cultura",
-                    choices = c("Melão", "Melancia", "Todas as culturas"),
+                    choices = c("MelÃ£o", "Melancia", "Todas as culturas"),
                     selected = "Melancia")
   
   # -------------------------------
@@ -93,8 +40,8 @@ function(input, output, session) {
       return(df)
     }
     
-    # NÃO vamos mais fazer unnest em 'indicacao_uso' para evitar erros de tipos mistos,
-    # até porque ela não é usada na tabela final.
+    # NÃƒO vamos mais fazer unnest em 'indicacao_uso' para evitar erros de tipos mistos,
+    # atÃ© porque ela nÃ£o Ã© usada na tabela final.
     if ("indicacao_uso" %in% names(df)) {
       df$indicacao_uso <- NULL
     }
@@ -104,12 +51,12 @@ function(input, output, session) {
       df <- df |> filter(cultura == input$cultura)
     }
     
-    # Cria coluna GRUPO a partir da classe agronômica
+    # Cria coluna GRUPO a partir da classe agronÃ´mica
     if ("classe_categoria_agronomica" %in% names(df)) {
       df <- df |>
         mutate(
           GRUPO = case_when(
-            grepl("Biológico", classe_categoria_agronomica, ignore.case = TRUE) ~ "Biológico",
+            grepl("BiolÃ³gico", classe_categoria_agronomica, ignore.case = TRUE) ~ "BiolÃ³gico",
             grepl("Fungicida", classe_categoria_agronomica, ignore.case = TRUE) ~ "Fungicida",
             grepl("Inseticida", classe_categoria_agronomica, ignore.case = TRUE) ~ "Inseticida",
             grepl("Herbicida", classe_categoria_agronomica, ignore.case = TRUE) ~ "Herbicida",
@@ -200,8 +147,8 @@ function(input, output, session) {
       rownames = TRUE,
       caption = paste0(
         "Lista de ", toupper(input$grupo),
-        " disponíveis para ", input$cultura,
-        " — Quantidade de produtos distintos: ", nrow(df_filtrado)
+        " disponÃ­veis para ", input$cultura,
+        " â€” Quantidade de produtos distintos: ", nrow(df_filtrado)
       ),
       options = list(
         dom = "Blfrtip",
@@ -259,7 +206,7 @@ function(input, output, session) {
             p(strong("Cultura: "),
               to_text(produto$cultura)),
           if ("prazo_de_seguranca" %in% names(produto))
-            p(strong("Prazo de segurança: "),
+            p(strong("Prazo de seguranÃ§a: "),
               to_text(produto$prazo_de_seguranca))
         )
         

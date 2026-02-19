@@ -6,6 +6,12 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [1.4.3] - 2026-02-19
+
+### Changed
+- Removida a autenticação interna da aplicação (`ui.R` e `server.R`).
+- O acesso ao app passa a depender apenas do SSO externo (Keycloak/OAuth2 no ambiente de produção).
+
 ## [1.4.2] - 2026-02-19
 
 ### Added
