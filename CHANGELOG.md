@@ -6,6 +6,11 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [1.4.4] - 2026-02-19
+
+### Fixed
+- Corrige codificacao de caracteres em `ui.R` e `server.R` para UTF-8, removendo textos corrompidos (acentos quebrados) na interface.
+
 ## [1.4.3] - 2026-02-19
 
 ### Changed

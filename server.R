@@ -16,7 +16,7 @@ function(input, output, session) {
   #                   choices = c("Todas as culturas", culturas),
   #                   selected = "Melancia")
   updateSelectInput(session, "cultura",
-                    choices = c("MelÃ£o", "Melancia", "Todas as culturas"),
+                    choices = c("Melão", "Melancia", "Todas as culturas"),
                     selected = "Melancia")
   
   # -------------------------------
@@ -40,8 +40,8 @@ function(input, output, session) {
       return(df)
     }
     
-    # NÃƒO vamos mais fazer unnest em 'indicacao_uso' para evitar erros de tipos mistos,
-    # atÃ© porque ela nÃ£o Ã© usada na tabela final.
+    # NÃO vamos mais fazer unnest em 'indicacao_uso' para evitar erros de tipos mistos,
+    # até porque ela não é usada na tabela final.
     if ("indicacao_uso" %in% names(df)) {
       df$indicacao_uso <- NULL
     }
@@ -51,12 +51,12 @@ function(input, output, session) {
       df <- df |> filter(cultura == input$cultura)
     }
     
-    # Cria coluna GRUPO a partir da classe agronÃ´mica
+    # Cria coluna GRUPO a partir da classe agronômica
     if ("classe_categoria_agronomica" %in% names(df)) {
       df <- df |>
         mutate(
           GRUPO = case_when(
-            grepl("BiolÃ³gico", classe_categoria_agronomica, ignore.case = TRUE) ~ "BiolÃ³gico",
+            grepl("Biológico", classe_categoria_agronomica, ignore.case = TRUE) ~ "Biológico",
             grepl("Fungicida", classe_categoria_agronomica, ignore.case = TRUE) ~ "Fungicida",
             grepl("Inseticida", classe_categoria_agronomica, ignore.case = TRUE) ~ "Inseticida",
             grepl("Herbicida", classe_categoria_agronomica, ignore.case = TRUE) ~ "Herbicida",
@@ -147,8 +147,8 @@ function(input, output, session) {
       rownames = TRUE,
       caption = paste0(
         "Lista de ", toupper(input$grupo),
-        " disponÃ­veis para ", input$cultura,
-        " â€” Quantidade de produtos distintos: ", nrow(df_filtrado)
+        " disponíveis para ", input$cultura,
+        " — Quantidade de produtos distintos: ", nrow(df_filtrado)
       ),
       options = list(
         dom = "Blfrtip",
@@ -206,7 +206,7 @@ function(input, output, session) {
             p(strong("Cultura: "),
               to_text(produto$cultura)),
           if ("prazo_de_seguranca" %in% names(produto))
-            p(strong("Prazo de seguranÃ§a: "),
+            p(strong("Prazo de segurança: "),
               to_text(produto$prazo_de_seguranca))
         )
         
