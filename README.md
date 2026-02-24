@@ -111,13 +111,13 @@ Consulte:
 
 Tags Git no padrão `vX.Y.Z`.
 
-## Licenca
+## Licença
 
-Este projeto utiliza licenca proprietaria (`All Rights Reserved`).
-Consulte o arquivo `LICENSE` para os termos completos.
+Este projeto utiliza licença proprietária (`All Rights Reserved`).
+Consulte o arquivo [`LICENSE`](LICENSE) para os termos completos.
 
 ## Próximos passos documentados
 
 Foi documentada evolução futura para edição de `prazo_de_seguranca` por perfil (`viewer`/`editor_ps`) com PostgreSQL:
-- `docs/adr/0001-role-e-ps-postgres.md`
-- `docs/roadmap/ps-editor-plan.md`
+- [ADR 0001: Edição de PS por Role com PostgreSQL](docs/adr/0001-role-e-ps-postgres.md)
+- [Plano futuro: PS editável por role](docs/roadmap/ps-editor-plan.md)
