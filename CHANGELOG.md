@@ -12,6 +12,11 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
   - `docs/adr/0001-role-e-ps-postgres.md`
   - `docs/roadmap/ps-editor-plan.md`
 
+## [1.4.12] - 2026-02-24
+
+### Changed
+- Rodape final ajustado para duas linhas: primeira com © 2026 MelonMundi - Global Solutions. Todos os direitos reservados. e segunda com Agrofito vX.Y.Z | Licenca proprietaria.
+
 ## [1.4.11] - 2026-02-24
 
 ### Changed
@@ -76,5 +81,6 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ### Fixed
 - Corrige codificacao de caracteres em `ui.R` e `server.R` para UTF-8, removendo textos corrompidos (acentos quebrados) na interface.
+
 
 
