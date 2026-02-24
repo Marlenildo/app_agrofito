@@ -12,6 +12,11 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
   - `docs/adr/0001-role-e-ps-postgres.md`
   - `docs/roadmap/ps-editor-plan.md`
 
+## [1.4.11] - 2026-02-24
+
+### Changed
+- Rodape ajustado para melhor leitura em celular, com quebra responsiva em linhas (versao na linha principal e licenca/direitos reservados em linha separada).
+
 ## [1.4.10] - 2026-02-24
 
 ### Changed
@@ -71,4 +76,5 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ### Fixed
 - Corrige codificacao de caracteres em `ui.R` e `server.R` para UTF-8, removendo textos corrompidos (acentos quebrados) na interface.
+
 

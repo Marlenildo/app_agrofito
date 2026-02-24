@@ -1,18 +1,28 @@
 app_footer <- function() {
   tags$footer(
+    class = "app-footer",
     img(
+      class = "app-footer-logo",
       src = "nova_logomm.png",
       height = "40px",
       style = "vertical-align: middle; margin-right: 8px;"
     ),
-    tags$span(HTML(paste0("&copy; 2026 MelonMundi - Global Solutions | Agrofito v", APP_VERSION))),
-    tags$span(" | "),
-    tags$a(
-      href = "https://github.com/Marlenildo/app_agrofito/blob/main/LICENSE",
-      target = "_blank",
-      "Licença proprietária"
-    ),
-    tags$span(" | Todos os direitos reservados.")
+    tags$div(
+      class = "app-footer-content",
+      tags$div(
+        class = "app-footer-line app-footer-line-main",
+        tags$span(HTML(paste0("&copy; 2026 MelonMundi - Global Solutions | Agrofito v", APP_VERSION)))
+      ),
+      tags$div(
+        class = "app-footer-line app-footer-line-legal",
+        tags$a(
+          href = "https://github.com/Marlenildo/app_agrofito/blob/main/LICENSE",
+          target = "_blank",
+          "Licença proprietária"
+        ),
+        tags$span(" | Todos os direitos reservados.")
+      )
+    )
   )
 }
 
