@@ -32,6 +32,12 @@ Oferecer uma interface simples para pesquisa e filtragem de produtos do AGROFIT,
 - Se houver cache válido, o app usa cache.
 - Se não houver dados disponíveis, o app mostra mensagem de indisponibilidade da consulta.
 
+## Links oficiais
+
+- Portal AGROFIT: https://agrofit.agricultura.gov.br/agrofit_cons/principal_agrofit_cons
+- API AGROFIT (versao): https://api.cnptia.embrapa.br/agrofit/v1/versao
+- Token da API CNPTIA/Embrapa: https://api.cnptia.embrapa.br/token
+
 ## Tecnologias
 
 - R + Shiny
@@ -105,9 +111,13 @@ Consulte:
 
 Tags Git no padrão `vX.Y.Z`.
 
+## Licenca
+
+Este projeto utiliza licenca proprietaria (`All Rights Reserved`).
+Consulte o arquivo `LICENSE` para os termos completos.
+
 ## Próximos passos documentados
 
 Foi documentada evolução futura para edição de `prazo_de_seguranca` por perfil (`viewer`/`editor_ps`) com PostgreSQL:
 - `docs/adr/0001-role-e-ps-postgres.md`
 - `docs/roadmap/ps-editor-plan.md`
-

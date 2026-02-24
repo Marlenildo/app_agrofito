@@ -12,6 +12,15 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
   - `docs/adr/0001-role-e-ps-postgres.md`
   - `docs/roadmap/ps-editor-plan.md`
 
+## [1.4.9] - 2026-02-24
+
+### Added
+- Adicionado arquivo `LICENSE` com termos de licenca proprietaria (`All Rights Reserved`).
+- Incluidos links oficiais do AGROFIT/API no `README.md`.
+
+### Changed
+- Rodape do app atualizado para exibir referencia de licenca com link para o arquivo `LICENSE` no repositorio.
+
 ## [1.4.8] - 2026-02-24
 
 ### Changed

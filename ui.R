@@ -5,7 +5,13 @@ app_footer <- function() {
       height = "40px",
       style = "vertical-align: middle; margin-right: 8px;"
     ),
-    paste0("© 2025 MelonMundi - Global Solutions | Agrofito v", APP_VERSION)
+    tags$span(paste0("(c) 2026 MelonMundi - Global Solutions | Agrofito v", APP_VERSION)),
+    tags$span(" | "),
+    tags$a(
+      href = "https://github.com/Marlenildo/app_agrofito/blob/main/LICENSE",
+      target = "_blank",
+      "Licenca proprietaria"
+    )
   )
 }
 
