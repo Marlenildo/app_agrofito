@@ -1,20 +1,35 @@
 # Changelog
-Todas as mudanÃ§as relevantes deste projeto serÃ£o documentadas neste arquivo.
+Todas as mudancas relevantes deste projeto serao documentadas neste arquivo.
 
-O formato segue o padrÃ£o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
+O formato segue o padrao [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
+
+## [Unreleased]
+
+## [1.4.7] - 2026-02-24
+
+### Changed
+- Filtro de cultura reorganizado para quatro opcoes: `Todos os produtos`, `Melão`, `Melancia` e `Todas as culturas`.
+- A base de dados do app passou a ser montada a partir de tres consultas especificas da API (`Melao`, `Melancia` e `Todas as culturas`), em vez de baixar todo o catalogo.
+- Inclusao da coluna/campo `alvo` na tabela e nos cards da aba de consulta.
+
+### Performance
+- Adicionado cache em memoria no processo do app para evitar novo download da API durante a mesma sessao.
+- Adicionado cache em disco (`cache/*.rds`, TTL de 24h) para reduzir tempo de carga entre reinicios do app.
+
+### Fixed
+- Corrigidos textos com caracteres quebrados (mojibake) em `ui.R`, `server.R` e `global.R`.
+- Ajustado comportamento padrao dos seletores para iniciar sem restricao de classe (`Todas as classes`) e com cultura agregada (`Todos os produtos`).
+- Busca textual mantida para marca comercial, ingrediente ativo e classe agronomica.
 
 ## [1.4.6] - 2026-02-19
 
 ### Changed
-- Incluída barra de pesquisa de produtos junto aos filtros da aba `Consulta`, antes dos seletores.
+- Incluida barra de pesquisa de produtos junto aos filtros da aba `Consulta`, antes dos seletores.
 - Removida a barra de pesquisa nativa do DataTable (DT), mantendo a busca apenas no novo campo de filtros.
-- Filtro de cultura passou a incluir `Todos os produtos` como padrão, além de `Melão`, `Melancia` e `Todas as culturas`.
-- Filtro de classe passou a incluir `Todas as classes` como opção padrão.
-- Tabela e visualização em lista agora usam a mesma filtragem combinada (busca + cultura + classe).
-
-
-## [Unreleased]
+- Filtro de cultura passou a incluir `Todos os produtos` como padrao, alem de `Melão`, `Melancia` e `Todas as culturas`.
+- Filtro de classe passou a incluir `Todas as classes` como opcao padrao.
+- Tabela e visualizacao em lista agora usam a mesma filtragem combinada (busca + cultura + classe).
 
 ## [1.4.5] - 2026-02-19
 
@@ -25,82 +40,3 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ### Fixed
 - Corrige codificacao de caracteres em `ui.R` e `server.R` para UTF-8, removendo textos corrompidos (acentos quebrados) na interface.
-
-## [1.4.3] - 2026-02-19
-
-### Changed
-- Removida a autenticaÃ§Ã£o interna da aplicaÃ§Ã£o (`ui.R` e `server.R`).
-- O acesso ao app passa a depender apenas do SSO externo (Keycloak/OAuth2 no ambiente de produÃ§Ã£o).
-
-## [1.4.2] - 2026-02-19
-
-### Added
-- Workflow de deploy para VPS em `.github/workflows/deploy-vps.yml`, acionado em push na `main`.
-
-### Changed
-- Publicacao do app em producao passou a sincronizar automaticamente via SSH executando `sync-prod-content.sh agrofito` no VPS.
-- Reinicio automatico do servico `shiny` apos sincronizacao para aplicar atualizacoes do app.
-
-## [1.4.0] - 2025-12-29
-
-### Added
-- Novo layout de login centralizado e responsivo
-- PadronizaÃ§Ã£o visual dos campos de usuÃ¡rio, senha e botÃ£o de acesso
-- VisualizaÃ§Ã£o em cards
-
-### Improved
-- ConsistÃªncia visual do formulÃ¡rio de autenticaÃ§Ã£o
-- Melhor experiÃªncia em dispositivos mÃ³veis
-
-## [1.3.1] â€“ 2025-12-29
-
-### Changed
-- Navbar ajustada para ocupar toda a largura da tela
-- Refinamento do tamanho da logo
-- Ajuste tipogrÃ¡fico do nome Agrofito
-
-## [1.3.0] â€“ 2025-12-28
-
-### Added
-- Ãcones nos tÃ­tulos da navbar
-- Novo refinamento visual da interface (layout v2)
-- PadronizaÃ§Ã£o visual do login e footer
-
-### Changed
-- OrganizaÃ§Ã£o do CSS em design system
-- Estrutura visual da tela de consulta
-- Navbar com melhor hierarquia e usabilidade
-
-### Fixed
-- EspaÃ§amentos inconsistentes na navbar
-
-## [1.2.0] - 2025-12-16
-
-### Added
-- Footer institucional exibido tambÃ©m na tela de login
-- ExibiÃ§Ã£o da versÃ£o do aplicativo no login
-
-### Changed
-- Footer padronizado e exibido globalmente
-
-## [1.1.0] - 2025-12-16
-
-### Changed
-- SeparaÃ§Ã£o do aplicativo em ui, server e global
-- InclusÃ£o de arquivo VERSION para controle de versÃ£o
-- VersÃ£o do aplicativo exibida dinamicamente no footer
-
-### Security
-- RemoÃ§Ã£o de usuÃ¡rios e senhas do cÃ³digo-fonte
-- Credenciais carregadas via `.Renviron`
-
-## [1.0.0] - 2025-12-16
-
-### Added
-- Consulta aos dados do sistema AGROFIT (MAPA)
-- Filtros por cultura e classe agronÃ´mica
-- Interface web com autenticaÃ§Ã£o
-- Tabela interativa com exportaÃ§Ã£o
-
-### Changed
-- Estrutura inicial do projeto Shiny
