@@ -6,6 +6,12 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+### Planned
+- Documentada arquitetura futura para edicao de `prazo_de_seguranca` por role (`viewer`/`editor_ps`) com persistencia em PostgreSQL no VPS.
+- Criados os documentos de referencia:
+  - `docs/adr/0001-role-e-ps-postgres.md`
+  - `docs/roadmap/ps-editor-plan.md`
+
 ## [1.4.8] - 2026-02-24
 
 ### Changed
