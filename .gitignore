@@ -16,6 +16,7 @@ rsconnect/
 # Banco / cache
 *.sqlite
 *.db
+cache/
 
 # Logs
 *.log

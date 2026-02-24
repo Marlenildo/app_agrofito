@@ -3,19 +3,20 @@ function(input, output, session) {
   # -------------------------------
   # Carrega lista de culturas
   # -------------------------------
-  res_c <- request(url_culturas) |>
-    req_headers(Authorization = paste("Bearer", token)) |>
-    req_perform()
+  culturas <- c("Todos os produtos", names(CULTURAS_SUPORTADAS))
 
-  dados_culturas <- resp_body_json(res_c, simplifyVector = TRUE)
-  culturas <- sort(unique(dados_culturas$nome))
-
-  # Mantemos opÃ§Ãµes principais e adicionamos o padrÃ£o sem filtro.
   updateSelectInput(
     session,
     "cultura",
-    choices = c("Todos os produtos", "MelÃ£o", "Melancia", "Todas as culturas"),
+    choices = culturas,
     selected = "Todos os produtos"
+  )
+
+  updateSelectInput(
+    session,
+    "grupo",
+    choices = "Todas as classes",
+    selected = "Todas as classes"
   )
 
   # -------------------------------
@@ -24,51 +25,15 @@ function(input, output, session) {
   produtos_reactive <- reactive({
     req(input$cultura)
 
-    cultura_consulta <- if (identical(input$cultura, "Todos os produtos")) {
-      NULL
-    } else {
-      input$cultura
-    }
+    df <- get_produtos_base(token)
 
-    df <- buscar_produtos_cultura(cultura_consulta, token)
-
-    # Se vier vazio, retorna tibble vazio logo
     if (nrow(df) == 0) {
-      return(tibble(
-        cultura = character(),
-        classe_categoria_agronomica = character(),
-        marca_comercial = character(),
-        ingrediente_ativo = character(),
-        prazo_de_seguranca = character(),
-        GRUPO = character()
-      ))
+      return(normalizar_produtos(tibble()))
     }
 
-    # NÃ£o vamos mais fazer unnest em 'indicacao_uso' para evitar erros de tipos mistos,
-    # atÃ© porque ela nÃ£o Ã© usada na tabela final.
-    if ("indicacao_uso" %in% names(df)) {
-      df$indicacao_uso <- NULL
-    }
-
-    # Filtra pela cultura somente quando for uma cultura especÃ­fica.
-    if (input$cultura %in% c("MelÃ£o", "Melancia") && "cultura" %in% names(df)) {
-      df <- df |> filter(cultura == input$cultura)
-    }
-
-    # Cria coluna GRUPO a partir da classe agronÃ´mica
-    if ("classe_categoria_agronomica" %in% names(df)) {
+    if (input$cultura %in% names(CULTURAS_SUPORTADAS) && "filtro_cultura" %in% names(df)) {
       df <- df |>
-        mutate(
-          GRUPO = case_when(
-            grepl("BiolÃ³gico", classe_categoria_agronomica, ignore.case = TRUE) ~ "BiolÃ³gico",
-            grepl("Fungicida", classe_categoria_agronomica, ignore.case = TRUE) ~ "Fungicida",
-            grepl("Inseticida", classe_categoria_agronomica, ignore.case = TRUE) ~ "Inseticida",
-            grepl("Herbicida", classe_categoria_agronomica, ignore.case = TRUE) ~ "Herbicida",
-            TRUE ~ "Outros"
-          )
-        )
-    } else {
-      df$GRUPO <- "Outros"
+        filter(filtro_cultura == input$cultura)
     }
 
     df
@@ -77,20 +42,16 @@ function(input, output, session) {
   observe({
     df <- produtos_reactive()
 
-    if (!"GRUPO" %in% names(df) || nrow(df) == 0) {
-      grupos <- character(0)
+    grupos <- if ("GRUPO" %in% names(df) && nrow(df) > 0) {
+      sort(unique(df$GRUPO))
     } else {
-      grupos <- sort(unique(df$GRUPO))
+      character(0)
     }
-
-    if (length(grupos) == 0) grupos <- "Outros"
-
-    grupos <- c("Todas as classes", grupos)
 
     updateSelectInput(
       session,
       "grupo",
-      choices = grupos,
+      choices = c("Todas as classes", grupos),
       selected = "Todas as classes"
     )
   })
@@ -107,7 +68,8 @@ function(input, output, session) {
     }
 
     if (input$grupo != "Todas as classes") {
-      df <- df |> filter(GRUPO == input$grupo)
+      df <- df |>
+        filter(GRUPO == input$grupo)
     }
 
     busca <- trimws(if (is.null(input$busca_produto)) "" else input$busca_produto)
@@ -115,7 +77,7 @@ function(input, output, session) {
     if (nzchar(busca)) {
       busca_lower <- tolower(busca)
       cols_busca <- intersect(
-        c("marca_comercial", "ingrediente_ativo", "classe_categoria_agronomica", "cultura"),
+        c("marca_comercial", "ingrediente_ativo", "classe_categoria_agronomica"),
         names(df)
       )
 
@@ -163,16 +125,20 @@ function(input, output, session) {
         classe_categoria_agronomica = character(),
         marca_comercial = character(),
         ingrediente_ativo = character(),
+        alvo = character(),
         prazo_de_seguranca = character()
       )
     } else {
       df_filtrado <- df |>
         dplyr::select(any_of(
-          c("cultura",
+          c(
+            "cultura",
             "classe_categoria_agronomica",
             "marca_comercial",
             "ingrediente_ativo",
-            "prazo_de_seguranca")
+            "alvo",
+            "prazo_de_seguranca"
+          )
         )) |>
         mutate(across(
           everything(),
@@ -200,8 +166,8 @@ function(input, output, session) {
       rownames = TRUE,
       caption = paste0(
         "Lista de ", classe_caption,
-        " disponÃ­veis para ", input$cultura,
-        " â€” Quantidade de produtos distintos: ", nrow(df_filtrado)
+        " disponíveis para ", input$cultura,
+        " - Quantidade de produtos distintos: ", nrow(df_filtrado)
       ),
       options = list(
         dom = "Blrtip",
@@ -235,6 +201,7 @@ function(input, output, session) {
         "classe_categoria_agronomica",
         "marca_comercial",
         "ingrediente_ativo",
+        "alvo",
         "prazo_de_seguranca"
       )))
 
@@ -251,7 +218,8 @@ function(input, output, session) {
             classe_badges(produto$classe_categoria_agronomica)
           ),
           if ("cultura" %in% names(produto)) p(strong("Cultura: "), to_text(produto$cultura)),
-          if ("prazo_de_seguranca" %in% names(produto)) p(strong("Prazo de seguranÃ§a: "), to_text(produto$prazo_de_seguranca))
+          if ("alvo" %in% names(produto)) p(strong("Alvo: "), to_text(produto$alvo)),
+          if ("prazo_de_seguranca" %in% names(produto)) p(strong("Prazo de segurança: "), to_text(produto$prazo_de_seguranca))
         )
       })
     )

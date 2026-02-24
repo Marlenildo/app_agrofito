@@ -80,7 +80,8 @@ fluidPage(
           selectInput(
             "grupo",
             "Selecione a classe do produto:",
-            choices = NULL,
+            choices = "Todas as classes",
+            selected = "Todas as classes",
             selectize = TRUE
           )
         )
@@ -146,7 +147,7 @@ fluidPage(
       title = tagList(icon("balance-scale"), "Aviso Legal"),
       div(
         class = "info-box",
-        p(class = "title", "⚖️ Aviso Legal"),
+        p(class = "title", "Aviso Legal"),
         p(
           "As informações apresentadas neste relatório têm caráter exclusivamente informativo e não substituem, em hipótese alguma, as orientações técnicas, legais ou regulatórias emitidas pelos órgãos oficiais competentes."
         ),
