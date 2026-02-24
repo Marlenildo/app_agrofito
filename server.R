@@ -36,6 +36,22 @@ function(input, output, session) {
         filter(filtro_cultura == input$cultura)
     }
 
+    # Em "Todos os produtos", remove duplicados entre consultas de culturas.
+    # Mantém prioridade para a fonte "Todas as culturas", quando existir.
+    if (identical(input$cultura, "Todos os produtos") &&
+      "numero_registro" %in% names(df)) {
+      if ("filtro_cultura" %in% names(df)) {
+        df <- df |>
+          mutate(.prioridade_fonte = if_else(filtro_cultura == "Todas as culturas", 0L, 1L)) |>
+          arrange(.prioridade_fonte) |>
+          distinct(numero_registro, .keep_all = TRUE) |>
+          select(-.prioridade_fonte)
+      } else {
+        df <- df |>
+          distinct(numero_registro, .keep_all = TRUE)
+      }
+    }
+
     df
   })
 
@@ -125,7 +141,6 @@ function(input, output, session) {
         classe_categoria_agronomica = character(),
         marca_comercial = character(),
         ingrediente_ativo = character(),
-        alvo = character(),
         prazo_de_seguranca = character()
       )
     } else {
@@ -136,7 +151,6 @@ function(input, output, session) {
             "classe_categoria_agronomica",
             "marca_comercial",
             "ingrediente_ativo",
-            "alvo",
             "prazo_de_seguranca"
           )
         )) |>
@@ -201,7 +215,6 @@ function(input, output, session) {
         "classe_categoria_agronomica",
         "marca_comercial",
         "ingrediente_ativo",
-        "alvo",
         "prazo_de_seguranca"
       )))
 
@@ -218,7 +231,6 @@ function(input, output, session) {
             classe_badges(produto$classe_categoria_agronomica)
           ),
           if ("cultura" %in% names(produto)) p(strong("Cultura: "), to_text(produto$cultura)),
-          if ("alvo" %in% names(produto)) p(strong("Alvo: "), to_text(produto$alvo)),
           if ("prazo_de_seguranca" %in% names(produto)) p(strong("Prazo de segurança: "), to_text(produto$prazo_de_seguranca))
         )
       })
