@@ -415,14 +415,20 @@ footer img {
 
 .app-footer-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 2px;
 }
 
 .app-footer-line {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.app-footer-line-main {
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .app-footer-line-legal a {
@@ -438,7 +444,6 @@ footer img {
   }
 
   .app-footer-content {
-    flex-direction: column;
     gap: 2px;
   }
 

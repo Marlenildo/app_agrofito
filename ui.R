@@ -11,16 +11,16 @@ app_footer <- function() {
       class = "app-footer-content",
       tags$div(
         class = "app-footer-line app-footer-line-main",
-        tags$span(HTML(paste0("&copy; 2026 MelonMundi - Global Solutions | Agrofito v", APP_VERSION)))
+        tags$span(HTML("&copy; 2026 MelonMundi - Global Solutions. Todos os direitos reservados."))
       ),
       tags$div(
         class = "app-footer-line app-footer-line-legal",
+        tags$span(paste0("Agrofito v", APP_VERSION, " | ")),
         tags$a(
           href = "https://github.com/Marlenildo/app_agrofito/blob/main/LICENSE",
           target = "_blank",
           "Licença proprietária"
-        ),
-        tags$span(" | Todos os direitos reservados.")
+        )
       )
     )
   )
