@@ -1,4 +1,11 @@
 function(input, output, session) {
+  mensagem_api_indisponivel <- function() {
+    div(
+      class = "empty-box",
+      strong("Consulta indisponível no momento."),
+      p("Não foi possível acessar a API do AGROFIT agora. Tente novamente em alguns minutos.")
+    )
+  }
 
   # -------------------------------
   # Carrega lista de culturas
@@ -137,7 +144,6 @@ function(input, output, session) {
 
     if (nrow(df) == 0) {
       df_filtrado <- tibble(
-        cultura = character(),
         classe_categoria_agronomica = character(),
         marca_comercial = character(),
         ingrediente_ativo = character(),
@@ -147,7 +153,6 @@ function(input, output, session) {
       df_filtrado <- df |>
         dplyr::select(any_of(
           c(
-            "cultura",
             "classe_categoria_agronomica",
             "marca_comercial",
             "ingrediente_ativo",
@@ -211,7 +216,6 @@ function(input, output, session) {
 
     df_filtrado <- df |>
       dplyr::select(any_of(c(
-        "cultura",
         "classe_categoria_agronomica",
         "marca_comercial",
         "ingrediente_ativo",
@@ -230,7 +234,6 @@ function(input, output, session) {
             class = "produto-classes",
             classe_badges(produto$classe_categoria_agronomica)
           ),
-          if ("cultura" %in% names(produto)) p(strong("Cultura: "), to_text(produto$cultura)),
           if ("prazo_de_seguranca" %in% names(produto)) p(strong("Prazo de segurança: "), to_text(produto$prazo_de_seguranca))
         )
       })
@@ -238,6 +241,13 @@ function(input, output, session) {
   })
 
   output$result_view <- renderUI({
+    base_sem_dados <- nrow(get_produtos_base(token)) == 0
+    df <- produtos_filtrados()
+
+    if (nrow(df) == 0 && base_sem_dados) {
+      return(mensagem_api_indisponivel())
+    }
+
     if (view_mode() == "table") {
       withSpinner(DTOutput("produtos_table"), type = 6)
     } else {

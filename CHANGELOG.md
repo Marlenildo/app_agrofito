@@ -6,6 +6,17 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [1.4.8] - 2026-02-24
+
+### Changed
+- Removida a exibicao de `alvo` na tabela e nos cards da aba de consulta.
+- Removida a exibicao de `cultura` na tabela e nos cards da aba de consulta.
+- Em `Todos os produtos`, os resultados passam a ser deduplicados por `numero_registro`, evitando repeticao do mesmo produto quando presente em mais de uma lista de cultura.
+
+### Fixed
+- Ajustado o carregamento inicial para o app abrir mesmo quando a API do AGROFIT estiver indisponivel.
+- Adicionado fallback para exibir mensagem de indisponibilidade da consulta quando nao houver dados por falha de acesso a API.
+
 ## [1.4.7] - 2026-02-24
 
 ### Changed

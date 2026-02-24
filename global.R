@@ -32,6 +32,10 @@ consumer_secret <- Sys.getenv("CONSUMER_SECRET")
 # Funções auxiliares
 # -------------------------------
 gerar_token <- function(consumer_key, consumer_secret) {
+  if (!nzchar(consumer_key) || !nzchar(consumer_secret)) {
+    return(NULL)
+  }
+
   res <- POST(
     url = url_token,
     body = list(grant_type = "client_credentials"),
@@ -78,6 +82,10 @@ formatar_data <- function(data_iso) {
 }
 
 buscar_produtos_cultura <- function(cultura, token) {
+  if (is.null(token) || !nzchar(token)) {
+    return(tibble())
+  }
+
   base_url <- url_pesquisa_produtos
   pagina <- 1
   todos <- list()
@@ -88,15 +96,22 @@ buscar_produtos_cultura <- function(cultura, token) {
       query_params$cultura <- cultura
     }
 
-    res <- GET(
-      url = base_url,
-      query = query_params,
-      add_headers(Authorization = paste("Bearer", token))
+    res <- tryCatch(
+      GET(
+        url = base_url,
+        query = query_params,
+        add_headers(Authorization = paste("Bearer", token))
+      ),
+      error = function(e) NULL
     )
 
-    if (status_code(res) != 200) break
+    if (is.null(res) || status_code(res) != 200) break
 
-    conteudo <- content(res, as = "text", encoding = "UTF-8")
+    conteudo <- tryCatch(
+      content(res, as = "text", encoding = "UTF-8"),
+      error = function(e) NULL
+    )
+    if (is.null(conteudo)) break
     dados <- tryCatch(fromJSON(conteudo, flatten = TRUE), error = function(e) NULL)
     if (is.null(dados) || length(dados) == 0) break
 
@@ -193,6 +208,10 @@ get_produtos_base <- function(token) {
     }
   }
 
+  if (is.null(token) || !nzchar(token)) {
+    return(normalizar_produtos(tibble()))
+  }
+
   dfs <- lapply(names(CULTURAS_SUPORTADAS), function(cultura_label) {
     cultura_api <- unname(CULTURAS_SUPORTADAS[[cultura_label]])
     df_c <- buscar_produtos_cultura(cultura_api, token)
@@ -213,13 +232,39 @@ get_produtos_base <- function(token) {
 # -------------------------------
 # Pré-carregamento
 # -------------------------------
-token <- gerar_token(consumer_key, consumer_secret)
+dados_versao <- list(
+  mantenedor = "MAPA",
+  fonte = "https://agrofit.agricultura.gov.br/agrofit_cons/principal_agrofit_cons",
+  url_mapa_dados = "https://api.cnptia.embrapa.br/agrofit/v1/versao",
+  data_ultima_atualizacao = NA_character_
+)
 
-res_versao <- request(url_versao) |>
-  req_headers(Authorization = paste("Bearer", token)) |>
-  req_perform()
+token <- tryCatch(
+  gerar_token(consumer_key, consumer_secret),
+  error = function(e) NULL
+)
 
-dados_versao <- resp_body_json(res_versao, simplifyVector = TRUE)
+API_DISPONIVEL <- !is.null(token) && nzchar(token)
+
+if (API_DISPONIVEL) {
+  res_versao <- tryCatch(
+    request(url_versao) |>
+      req_headers(Authorization = paste("Bearer", token)) |>
+      req_perform(),
+    error = function(e) NULL
+  )
+
+  if (!is.null(res_versao)) {
+    dados_versao_api <- tryCatch(
+      resp_body_json(res_versao, simplifyVector = TRUE),
+      error = function(e) NULL
+    )
+
+    if (is.list(dados_versao_api)) {
+      dados_versao <- modifyList(dados_versao, dados_versao_api)
+    }
+  }
+}
 
 # -------------------------------
 # Versão do aplicativo
