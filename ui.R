@@ -11,7 +11,8 @@ app_footer <- function() {
       href = "https://github.com/Marlenildo/app_agrofito/blob/main/LICENSE",
       target = "_blank",
       "Licença proprietária"
-    )
+    ),
+    tags$span(" | Todos os direitos reservados.")
   )
 }
 
