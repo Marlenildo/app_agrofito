@@ -26,6 +26,21 @@ app_footer <- function() {
   )
 }
 
+selectize_mobile_options <- list(
+  onInitialize = I(
+    "function() {
+      this.$control_input.prop('readonly', true);
+      this.$control_input.attr('inputmode', 'none');
+    }"
+  ),
+  onDropdownOpen = I(
+    "function() {
+      this.$control_input.prop('readonly', true);
+      this.$control_input.blur();
+    }"
+  )
+)
+
 fluidPage(
   useShinyjs(),
   tags$head(
@@ -85,22 +100,22 @@ fluidPage(
         ),
         column(
           4,
-          selectInput(
+          selectizeInput(
             "cultura",
             "Selecione a cultura:",
             choices = c("Todos os produtos", names(CULTURAS_SUPORTADAS)),
             selected = "Todos os produtos",
-            selectize = TRUE
+            options = selectize_mobile_options
           )
         ),
         column(
           4,
-          selectInput(
+          selectizeInput(
             "grupo",
             "Selecione a classe do produto:",
             choices = "Todas as classes",
             selected = "Todas as classes",
-            selectize = TRUE
+            options = selectize_mobile_options
           )
         ),
         column(
@@ -117,19 +132,14 @@ fluidPage(
               tagList(icon("rotate-left"), "Limpar filtros"),
               class = "filter-clear-btn"
             )
-          )
+          ),
+          uiOutput("filters_summary")
         )
       ),
       fluidRow(
         column(
           12,
           uiOutput("data_status")
-        )
-      ),
-      fluidRow(
-        column(
-          12,
-          uiOutput("filters_summary")
         )
       ),
       fluidRow(
@@ -150,13 +160,11 @@ fluidPage(
             )
           ),
           br(),
-          uiOutput("loading_hint"),
-          br(),
-          br(),
           withSpinner(
             uiOutput("result_view"),
             type = 6,
             color = "#548238",
+            hide.ui = FALSE,
             proxy.height = "320px"
           )
         )

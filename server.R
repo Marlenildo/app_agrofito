@@ -1,6 +1,9 @@
 function(input, output, session) {
   carregando_base <- reactiveVal(TRUE)
-  mensagem_carregamento <- reactiveVal("Na primeira carga, o app pode levar alguns segundos para ler o cache local ou baixar dados do AGROFIT.")
+  mensagem_carregamento <- reactiveVal(list(
+    title = "Carregando dados do AGROFIT...",
+    detail = "Lendo cache local ou preparando o primeiro download."
+  ))
   dados_base <- reactiveVal(normalizar_produtos(tibble()))
   status_dados <- reactiveVal(NULL)
 
@@ -12,9 +15,34 @@ function(input, output, session) {
     )
   }
 
+  loading_hint_ui <- function() {
+    info <- mensagem_carregamento()
+
+    div(
+      class = "loading-hint-inline",
+      div(class = "loading-hint-title", info$title),
+      div(class = "loading-hint-detail", info$detail)
+    )
+  }
+
   formatar_contagem <- function(n) {
     format(n, big.mark = ".", decimal.mark = ",", trim = TRUE, scientific = FALSE)
   }
+
+  selectize_mobile_options <- list(
+    onInitialize = I(
+      "function() {
+        this.$control_input.prop('readonly', true);
+        this.$control_input.attr('inputmode', 'none');
+      }"
+    ),
+    onDropdownOpen = I(
+      "function() {
+        this.$control_input.prop('readonly', true);
+        this.$control_input.blur();
+      }"
+    )
+  )
 
   montar_status_dados <- function(data_source, updated_at = NULL, force_refresh = FALSE) {
     data_hora <- formatar_data_hora_cache(updated_at)
@@ -69,9 +97,15 @@ function(input, output, session) {
     status_dados(NULL)
 
     if (isTRUE(force_refresh)) {
-      mensagem_carregamento("Atualizando dados do AGROFIT. Baixando dados mais recentes da API...")
+      mensagem_carregamento(list(
+        title = "Atualizando dados do AGROFIT...",
+        detail = "Baixando a versao mais recente da base."
+      ))
     } else {
-      mensagem_carregamento("Na primeira carga, o app pode levar alguns segundos para ler o cache local ou baixar dados do AGROFIT.")
+      mensagem_carregamento(list(
+        title = "Carregando dados do AGROFIT...",
+        detail = "Lendo cache local ou preparando o primeiro download."
+      ))
     }
 
     df <- tryCatch(
@@ -155,7 +189,8 @@ function(input, output, session) {
     session,
     "grupo",
     choices = "Todas as classes",
-    selected = "Todas as classes"
+    selected = "Todas as classes",
+    options = selectize_mobile_options
   )
 
   observeEvent(TRUE, {
@@ -218,7 +253,8 @@ function(input, output, session) {
       session,
       "grupo",
       choices = c("Todas as classes", grupos),
-      selected = grupo_default
+      selected = grupo_default,
+      options = selectize_mobile_options
     )
   })
 
@@ -276,14 +312,16 @@ function(input, output, session) {
     updateSelectizeInput(
       session,
       "cultura",
-      selected = "Todos os produtos"
+      selected = "Todos os produtos",
+      options = selectize_mobile_options
     )
 
     updateSelectizeInput(
       session,
       "grupo",
       choices = "Todas as classes",
-      selected = "Todas as classes"
+      selected = "Todas as classes",
+      options = selectize_mobile_options
     )
   })
 
@@ -315,56 +353,45 @@ function(input, output, session) {
     )
   })
 
-  output$loading_hint <- renderUI({
-    if (!carregando_base()) {
-      return(NULL)
-    }
-
-    div(
-      class = "loading-hint-inline",
-      mensagem_carregamento()
-    )
-  })
-
   output$filters_summary <- renderUI({
     req(input$cultura, input$grupo)
 
     df_cultura <- preparar_produtos_exibicao(aplicar_busca(produtos_reactive(), input$busca_produto))
     df_classe <- preparar_produtos_exibicao(aplicar_busca(produtos_por_classe(), input$busca_produto))
-    texto_cultura <- if (identical(input$cultura, "Todos os produtos")) {
-      "Produtos considerando todas as culturas."
-    } else {
-      "Produtos na cultura selecionada."
-    }
-    texto_classe <- if (identical(input$grupo, "Todas as classes")) {
-      "Produtos considerando todas as classes."
-    } else {
-      "Produtos na classe selecionada."
-    }
 
-    cards <- list(
-      div(
-        class = "summary-card summary-card-primary",
-        div(class = "summary-label", "Cultura"),
-        div(class = "summary-context", input$cultura),
-        div(class = "summary-value", formatar_contagem(nrow(df_cultura))),
-        div(class = "summary-helper", texto_cultura)
+    classe_label <- dplyr::case_when(
+      identical(input$grupo, "Biológico") ~ "Biológicos",
+      identical(input$grupo, "Fungicida") ~ "Fungicidas",
+      identical(input$grupo, "Inseticida") ~ "Inseticidas",
+      identical(input$grupo, "Herbicida") ~ "Herbicidas",
+      identical(input$grupo, "Outros") ~ "Outros",
+      TRUE ~ input$grupo
+    )
+
+    resumo_itens <- list(
+      tags$span(
+        class = "summary-inline-item",
+        tags$strong(
+          if (identical(input$cultura, "Todos os produtos")) "Total de produtos" else input$cultura
+        ),
+        paste0(": ", formatar_contagem(nrow(df_cultura)))
       )
     )
 
     if (!identical(input$grupo, "Todas as classes")) {
-      cards <- c(cards, list(
-        div(
-          class = "summary-card",
-          div(class = "summary-label", "Classe"),
-          div(class = "summary-context", input$grupo),
-          div(class = "summary-value", formatar_contagem(nrow(df_classe))),
-          div(class = "summary-helper", texto_classe)
+      resumo_itens <- c(
+        resumo_itens,
+        list(
+          tags$span(
+            class = "summary-inline-item",
+            tags$strong(classe_label),
+            paste0(": ", formatar_contagem(nrow(df_classe)))
+          )
         )
-      ))
+      )
     }
 
-    div(class = "summary-grid", cards)
+    div(class = "summary-inline", resumo_itens)
   })
 
   output$produtos_table <- renderDT({
@@ -419,7 +446,14 @@ function(input, output, session) {
   })
 
   output$result_view <- renderUI({
-    req(!carregando_base())
+    if (carregando_base()) {
+      return(
+        div(
+          class = "result-loading-box",
+          loading_hint_ui()
+        )
+      )
+    }
 
     df_base <- produtos_reactive()
     df <- produtos_filtrados()

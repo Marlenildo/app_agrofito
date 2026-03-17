@@ -12,6 +12,17 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
   - `docs/adr/0001-role-e-ps-postgres.md`
   - `docs/roadmap/ps-editor-plan.md`
 
+## [1.4.15] - 2026-03-17
+
+### Changed
+- O resumo de quantidades saiu dos cards e passou a aparecer como texto dentro do bloco de filtros, logo abaixo dos botoes, acompanhando cultura e classe selecionadas.
+- Os filtros de `Cultura` e `Classe` foram refinados para o uso em celular, com botoes lado a lado, cantos arredondados e destaque visual em verde alinhado ao tema do app.
+- A caixa de pesquisa passou a usar foco visual verde, no mesmo padrao dos seletores.
+
+### Fixed
+- Ajustado o carregamento da aba `Consulta` para exibir a mensagem de status dentro da propria area de resultados durante a carga inicial e ao atualizar dados, em vez de mostrar apenas o spinner.
+- Corrigido o comportamento dos seletores no celular para evitar abrir o teclado virtual em campos de selecao.
+
 ## [1.4.14] - 2026-03-17
 
 ### Changed

@@ -63,7 +63,7 @@ body {
   background: white;
   color: var(--primary);
   border: 1px solid #d7dfd1;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 8px 14px;
   font-weight: 600;
   box-shadow: 0 2px 6px rgba(84,130,56,0.06);
@@ -80,8 +80,16 @@ body {
 
 @media (max-width: 991px) {
   .filter-actions {
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 8px;
+  }
+
+  .filter-refresh-btn,
+  .filter-clear-btn {
+    width: calc(50% - 5px);
+    flex: 0 0 calc(50% - 5px);
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 
@@ -126,6 +134,25 @@ body {
   margin: 0 auto;
 }
 
+.loading-hint-title {
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 2px;
+}
+
+.loading-hint-detail {
+  font-size: 13px;
+  color: #6b756e;
+}
+
+.result-loading-box {
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
 /* =========================================================
    TÍTULOS E LABELS
    ========================================================= */
@@ -148,12 +175,27 @@ body {
    INPUTS & SELECTS — FOCO
    ========================================================= */
 .shiny-input-container select:focus,
+.shiny-input-container input:focus,
+.form-control:focus,
 .shiny-input-container textarea:focus,
 .selectize-input.focus {
   outline: none !important;
   border-color: #548238 !important;
   box-shadow: 0 0 6px #548238 !important;
   transition: 0.3s;
+}
+
+.selectize-dropdown .option.active,
+.selectize-dropdown .option.selected,
+.selectize-dropdown .active,
+.selectize-dropdown [data-selectable].active {
+  background: #eef6e8 !important;
+  color: var(--primary) !important;
+}
+
+.selectize-dropdown .selected {
+  background: #dceccc !important;
+  color: var(--primary) !important;
 }
 
 /* =========================================================
@@ -752,84 +794,35 @@ footer img {
 }
 
 /* =========================================================
-   SUMMARY CARDS
+   SUMMARY TEXT
    ========================================================= */
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin: 4px 0 18px;
+.summary-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: center;
+  margin: 12px 0 4px;
+  padding: 6px 0 2px;
+  color: #31511f;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
-.summary-card {
-  background: linear-gradient(145deg, #ffffff 0%, #f7fbf3 100%);
-  border: 1px solid #d9e9cd;
-  border-radius: 16px;
-  padding: 18px 20px;
-  box-shadow: 0 10px 24px rgba(84,130,56,0.08);
+.summary-inline-item {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
 }
 
-.summary-card-primary {
-  background: linear-gradient(135deg, #548238 0%, #6a9d45 100%);
-  border-color: transparent;
-  color: white;
-}
-
-.summary-label {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.82;
-  margin-bottom: 8px;
-}
-
-.summary-value {
-  font-size: 34px;
-  font-weight: 800;
-  line-height: 1;
-  margin-bottom: 10px;
-}
-
-.summary-context {
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 10px;
+.summary-inline-item strong {
   color: var(--primary);
-}
-
-.summary-card-primary .summary-context {
-  color: white;
-}
-
-.summary-helper {
-  font-size: 13px;
-  line-height: 1.45;
-  color: #4f5d57;
-}
-
-.summary-card-primary .summary-helper,
-.summary-card-primary .summary-label {
-  color: rgba(255,255,255,0.88);
+  font-weight: 700;
 }
 
 @media (max-width: 768px) {
-  .summary-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .summary-value {
-    font-size: 30px;
-  }
-
-  .summary-context {
-    font-size: 20px;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1100px) {
-  .summary-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .summary-inline {
+    gap: 6px 14px;
+    font-size: 14px;
   }
 }
