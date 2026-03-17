@@ -212,7 +212,10 @@ get_produtos_base <- function(token) {
     return(normalizar_produtos(tibble()))
   }
 
-  dfs <- lapply(names(CULTURAS_SUPORTADAS), function(cultura_label) {
+  culturas_labels <- names(CULTURAS_SUPORTADAS)
+
+  dfs <- lapply(seq_along(culturas_labels), function(i) {
+    cultura_label <- culturas_labels[[i]]
     cultura_api <- unname(CULTURAS_SUPORTADAS[[cultura_label]])
     df_c <- buscar_produtos_cultura(cultura_api, token)
     if (nrow(df_c) == 0) return(df_c)

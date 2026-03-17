@@ -73,7 +73,7 @@ fluidPage(
       tags$p("Pesquise por produto e refine por cultura e classe agronômica."),
       br(),
       fluidRow(
-        class = "input-box",
+        class = "input-box filters-box",
         column(
           4,
           textInput(
@@ -101,12 +101,30 @@ fluidPage(
             selected = "Todas as classes",
             selectize = TRUE
           )
+        ),
+        column(
+          12,
+          div(
+            class = "filter-actions",
+            actionButton(
+              "btn_limpar_filtros",
+              tagList(icon("rotate-left"), "Limpar filtros"),
+              class = "filter-clear-btn"
+            )
+          )
+        )
+      ),
+      fluidRow(
+        column(
+          12,
+          uiOutput("filters_summary")
         )
       ),
       fluidRow(
         column(
           12,
           class = "input-box",
+          uiOutput("loading_hint"),
           div(
             class = "view-switch",
             actionButton(
@@ -122,7 +140,13 @@ fluidPage(
           ),
           br(),
           br(),
-          uiOutput("result_view")
+          withSpinner(
+            uiOutput("result_view"),
+            type = 6,
+            color = "#548238",
+            proxy.height = "320px",
+            caption = "Carregando dados do AGROFIT..."
+          )
         )
       )
     ),
