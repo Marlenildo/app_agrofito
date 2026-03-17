@@ -7,11 +7,11 @@ app_footer <- function() {
       height = "40px",
       style = "vertical-align: middle; margin-right: 8px;"
     ),
-    tags$div(
-      class = "app-footer-content",
-      tags$div(
-        class = "app-footer-line app-footer-line-main",
-        tags$span(HTML("&copy; 2026 MelonMundi - Global Solutions. Todos os direitos reservados."))
+        tags$div(
+          class = "app-footer-content",
+          tags$div(
+            class = "app-footer-line app-footer-line-main",
+            tags$span(HTML("&copy; 2026 MelonMundi - Global Solutions. Todos os direitos reservados."))
       ),
       tags$div(
         class = "app-footer-line app-footer-line-legal",
@@ -75,17 +75,15 @@ fluidPage(
     collapsible = TRUE,
     fluid = TRUE,
 
-    # ---- Consulta ----
     tabPanel(
       title = tagList(icon("search"), "Consulta"),
       span(class = "panel-title", "Consulta por cultura"),
       tags$p(
-        "Consulte todos os produtos registrados no Sistema de Agrotóxicos Fitossanitários (AGROFIT) do Ministério da Agricultura, Pecuária e Abastecimento (MAPA)."
+        "Consulte os produtos registrados no Sistema de Agrotóxicos Fitossanitários (AGROFIT) do Ministério da Agricultura e Pecuária (MAPA), com foco em Melão, Melancia e Todas as culturas."
       ),
       tags$p(
-        "É possível pesquisar por cultura e classe de produto, e obter informações detalhadas sobre cada produto, incluindo cultura, classe agronômica, marca comercial, ingrediente ativo e prazo de segurança."
+        "Pesquise por produto e refine os resultados por cultura e classe agronômica. Você pode visualizar informações como marca comercial, ingrediente ativo, classe agronômica e prazo de segurança."
       ),
-      tags$p("Pesquise por produto e refine por cultura e classe agronômica."),
       br(),
       fluidRow(
         class = "input-box filters-box",
@@ -133,6 +131,7 @@ fluidPage(
               class = "filter-clear-btn"
             )
           ),
+          tags$hr(class = "filters-summary-divider"),
           uiOutput("filters_summary")
         )
       ),
@@ -160,18 +159,11 @@ fluidPage(
             )
           ),
           br(),
-          withSpinner(
-            uiOutput("result_view"),
-            type = 6,
-            color = "#548238",
-            hide.ui = FALSE,
-            proxy.height = "320px"
-          )
+          uiOutput("result_view")
         )
       )
     ),
 
-    # ---- Versão ----
     tabPanel(
       title = tagList(icon("info-circle"), "Versão dos dados"),
       span(class = "panel-title", "Versão dos dados"),
@@ -203,7 +195,6 @@ fluidPage(
       br()
     ),
 
-    # ---- Aviso Legal ----
     tabPanel(
       title = tagList(icon("balance-scale"), "Aviso Legal"),
       div(
@@ -233,6 +224,5 @@ fluidPage(
     )
   ),
 
-  # Footer
   app_footer()
 )

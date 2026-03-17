@@ -12,6 +12,17 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
   - `docs/adr/0001-role-e-ps-postgres.md`
   - `docs/roadmap/ps-editor-plan.md`
 
+## [1.4.16] - 2026-03-17
+
+### Changed
+- O fundo geral do app foi suavizado para um cinza ainda mais claro e neutro, melhorando a leitura dos cards e blocos brancos.
+- O texto institucional da aba `Consulta` foi reescrito para ficar mais direto e todas as abas tiveram os textos revisados com acentuacao correta.
+- O resumo de quantidades dentro do card de filtros passou a ter uma linha divisoria antes da exibicao.
+- A area de resultados ganhou mais espaco entre os botoes `Tabela`/`Lista` e o conteudo exibido.
+
+### Fixed
+- O estado de carregamento da aba `Consulta` foi ajustado para aparecer dentro da propria area reservada para tabela/cards, com spinner e mensagem visivel ao carregar e ao atualizar dados.
+
 ## [1.4.15] - 2026-03-17
 
 ### Changed

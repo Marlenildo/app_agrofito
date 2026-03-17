@@ -20,6 +20,7 @@ function(input, output, session) {
 
     div(
       class = "loading-hint-inline",
+      div(class = "loading-hint-spinner", icon("spinner", class = "fa-spin")),
       div(class = "loading-hint-title", info$title),
       div(class = "loading-hint-detail", info$detail)
     )
@@ -93,6 +94,21 @@ function(input, output, session) {
   }
 
   carregar_base_produtos <- function(force_refresh = FALSE) {
+    df <- tryCatch(
+      get_produtos_base(token, force_refresh = force_refresh),
+      error = function(e) normalizar_produtos(tibble())
+    )
+
+    dados_base(df)
+    status_dados(montar_status_dados(
+      attr(df, "data_source"),
+      updated_at = attr(df, "data_updated_at", exact = TRUE),
+      force_refresh = force_refresh
+    ))
+    carregando_base(FALSE)
+  }
+
+  iniciar_carregamento_base <- function(force_refresh = FALSE) {
     carregando_base(TRUE)
     status_dados(NULL)
 
@@ -108,18 +124,11 @@ function(input, output, session) {
       ))
     }
 
-    df <- tryCatch(
-      get_produtos_base(token, force_refresh = force_refresh),
-      error = function(e) normalizar_produtos(tibble())
-    )
-
-    dados_base(df)
-    status_dados(montar_status_dados(
-      attr(df, "data_source"),
-      updated_at = attr(df, "data_updated_at", exact = TRUE),
-      force_refresh = force_refresh
-    ))
-    carregando_base(FALSE)
+    session$onFlushed(function() {
+      later::later(function() {
+        carregar_base_produtos(force_refresh = force_refresh)
+      }, delay = 0)
+    }, once = TRUE)
   }
 
   preparar_produtos_exibicao <- function(df) {
@@ -194,7 +203,7 @@ function(input, output, session) {
   )
 
   observeEvent(TRUE, {
-    carregar_base_produtos(force_refresh = FALSE)
+    iniciar_carregamento_base(force_refresh = FALSE)
   }, once = TRUE)
 
   # -------------------------------
@@ -326,7 +335,7 @@ function(input, output, session) {
   })
 
   observeEvent(input$btn_atualizar_dados, {
-    carregar_base_produtos(force_refresh = TRUE)
+    iniciar_carregamento_base(force_refresh = TRUE)
   })
 
   observe({
