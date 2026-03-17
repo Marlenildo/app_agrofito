@@ -1,5 +1,8 @@
 function(input, output, session) {
-  carregando_inicial <- reactiveVal(TRUE)
+  carregando_base <- reactiveVal(TRUE)
+  mensagem_carregamento <- reactiveVal("Na primeira carga, o app pode levar alguns segundos para ler o cache local ou baixar dados do AGROFIT.")
+  dados_base <- reactiveVal(normalizar_produtos(tibble()))
+  status_dados <- reactiveVal(NULL)
 
   mensagem_api_indisponivel <- function() {
     div(
@@ -11,6 +14,78 @@ function(input, output, session) {
 
   formatar_contagem <- function(n) {
     format(n, big.mark = ".", decimal.mark = ",", trim = TRUE, scientific = FALSE)
+  }
+
+  montar_status_dados <- function(data_source, updated_at = NULL, force_refresh = FALSE) {
+    data_hora <- formatar_data_hora_cache(updated_at)
+
+    if (identical(data_source, "api")) {
+      list(
+        class = "success",
+        icon = "download",
+        text = if (!is.na(data_hora)) {
+          if (isTRUE(force_refresh)) {
+            paste0("Base baixada agora do AGROFIT em ", data_hora, ".")
+          } else {
+            paste0("Base baixada do AGROFIT em ", data_hora, ".")
+          }
+        } else if (isTRUE(force_refresh)) {
+          "Base baixada agora do AGROFIT."
+        } else {
+          "Base baixada do AGROFIT."
+        }
+      )
+    } else if (identical(data_source, "disk_cache")) {
+      list(
+        class = "neutral",
+        icon = "database",
+        text = if (!is.na(data_hora)) {
+          paste0("Consulta usando cache local, baixado em ", data_hora, ".")
+        } else {
+          "Consulta usando cache local salvo anteriormente neste computador."
+        }
+      )
+    } else if (identical(data_source, "memory")) {
+      list(
+        class = "neutral",
+        icon = "database",
+        text = if (!is.na(data_hora)) {
+          paste0("Consulta usando base ja carregada nesta sessao, baixada em ", data_hora, ".")
+        } else {
+          "Consulta usando base ja carregada nesta sessao."
+        }
+      )
+    } else {
+      list(
+        class = "warning",
+        icon = "triangle-exclamation",
+        text = "Nao foi possivel carregar dados do AGROFIT neste momento."
+      )
+    }
+  }
+
+  carregar_base_produtos <- function(force_refresh = FALSE) {
+    carregando_base(TRUE)
+    status_dados(NULL)
+
+    if (isTRUE(force_refresh)) {
+      mensagem_carregamento("Atualizando dados do AGROFIT. Baixando dados mais recentes da API...")
+    } else {
+      mensagem_carregamento("Na primeira carga, o app pode levar alguns segundos para ler o cache local ou baixar dados do AGROFIT.")
+    }
+
+    df <- tryCatch(
+      get_produtos_base(token, force_refresh = force_refresh),
+      error = function(e) normalizar_produtos(tibble())
+    )
+
+    dados_base(df)
+    status_dados(montar_status_dados(
+      attr(df, "data_source"),
+      updated_at = attr(df, "data_updated_at", exact = TRUE),
+      force_refresh = force_refresh
+    ))
+    carregando_base(FALSE)
   }
 
   preparar_produtos_exibicao <- function(df) {
@@ -76,24 +151,16 @@ function(input, output, session) {
       )
   }
 
-  # -------------------------------
-  # Carrega lista de culturas
-  # -------------------------------
-  culturas <- c("Todos os produtos", names(CULTURAS_SUPORTADAS))
-
-  updateSelectInput(
-    session,
-    "cultura",
-    choices = culturas,
-    selected = "Todos os produtos"
-  )
-
-  updateSelectInput(
+  updateSelectizeInput(
     session,
     "grupo",
     choices = "Todas as classes",
     selected = "Todas as classes"
   )
+
+  observeEvent(TRUE, {
+    carregar_base_produtos(force_refresh = FALSE)
+  }, once = TRUE)
 
   # -------------------------------
   # Produtos reativos (base)
@@ -101,8 +168,7 @@ function(input, output, session) {
   produtos_reactive <- reactive({
     req(input$cultura)
 
-    df <- get_produtos_base(token)
-    carregando_inicial(FALSE)
+    df <- dados_base()
 
     if (nrow(df) == 0) {
       return(normalizar_produtos(tibble()))
@@ -141,11 +207,18 @@ function(input, output, session) {
       character(0)
     }
 
-    updateSelectInput(
+    grupo_selecionado <- isolate(input$grupo)
+    grupo_default <- if (!is.null(grupo_selecionado) && grupo_selecionado %in% c("Todas as classes", grupos)) {
+      grupo_selecionado
+    } else {
+      "Todas as classes"
+    }
+
+    updateSelectizeInput(
       session,
       "grupo",
       choices = c("Todas as classes", grupos),
-      selected = "Todas as classes"
+      selected = grupo_default
     )
   })
 
@@ -200,17 +273,22 @@ function(input, output, session) {
       value = ""
     )
 
-    updateSelectInput(
+    updateSelectizeInput(
       session,
       "cultura",
       selected = "Todos os produtos"
     )
 
-    updateSelectInput(
+    updateSelectizeInput(
       session,
       "grupo",
+      choices = "Todas as classes",
       selected = "Todas as classes"
     )
+  })
+
+  observeEvent(input$btn_atualizar_dados, {
+    carregar_base_produtos(force_refresh = TRUE)
   })
 
   observe({
@@ -223,15 +301,28 @@ function(input, output, session) {
     }
   })
 
-  output$loading_hint <- renderUI({
-    if (!carregando_inicial()) {
+  output$data_status <- renderUI({
+    info <- status_dados()
+
+    if (is.null(info) || carregando_base()) {
       return(NULL)
     }
 
     div(
-      class = "loading-hint",
-      icon("download"),
-      tags$span("Na primeira carga, o app pode levar alguns segundos para ler o cache local ou baixar dados do AGROFIT.")
+      class = paste("data-status-line", paste0("data-status-", info$class)),
+      icon(info$icon, class = "data-status-icon"),
+      span(class = "data-status-message", info$text)
+    )
+  })
+
+  output$loading_hint <- renderUI({
+    if (!carregando_base()) {
+      return(NULL)
+    }
+
+    div(
+      class = "loading-hint-inline",
+      mensagem_carregamento()
     )
   })
 
@@ -328,6 +419,8 @@ function(input, output, session) {
   })
 
   output$result_view <- renderUI({
+    req(!carregando_base())
+
     df_base <- produtos_reactive()
     df <- produtos_filtrados()
     base_sem_dados <- nrow(df_base) == 0

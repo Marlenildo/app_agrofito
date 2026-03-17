@@ -190,18 +190,96 @@ normalizar_produtos <- function(df) {
 .cache_arquivo_produtos <- file.path("cache", "produtos_melao_melancia_todas.rds")
 .cache_ttl_horas <- 24
 
-get_produtos_base <- function(token) {
+limpar_cache_produtos <- function(remover_arquivo = FALSE) {
+  cache_keys <- ls(envir = .produtos_cache, all.names = TRUE)
+  if (length(cache_keys) > 0) {
+    rm(list = cache_keys, envir = .produtos_cache)
+  }
+
+  if (isTRUE(remover_arquivo) && file.exists(.cache_arquivo_produtos)) {
+    unlink(.cache_arquivo_produtos)
+  }
+}
+
+marcar_fonte_dados <- function(df, source) {
+  attr(df, "data_source") <- source
+  if (is.null(attr(df, "data_updated_at", exact = TRUE))) {
+    attr(df, "data_updated_at") <- NA
+  }
+  df
+}
+
+marcar_data_atualizacao_dados <- function(df, updated_at) {
+  attr(df, "data_updated_at") <- updated_at
+  df
+}
+
+formatar_data_hora_cache <- function(updated_at) {
+  if (is.null(updated_at) || length(updated_at) == 0 || all(is.na(updated_at))) {
+    return(NA_character_)
+  }
+
+  updated_at <- tryCatch(
+    as.POSIXct(updated_at, tz = "America/Sao_Paulo"),
+    error = function(e) NA
+  )
+
+  if (all(is.na(updated_at))) {
+    return(NA_character_)
+  }
+
+  format(updated_at[[1]], "%d/%m/%Y %H:%M")
+}
+
+ler_cache_produtos <- function(cache_path) {
+  cache_obj <- tryCatch(readRDS(cache_path), error = function(e) NULL)
+  if (is.null(cache_obj)) {
+    return(NULL)
+  }
+
+  if (is.data.frame(cache_obj)) {
+    return(list(
+      data = cache_obj,
+      updated_at = file.info(cache_path)$mtime[[1]]
+    ))
+  }
+
+  if (is.list(cache_obj) && is.data.frame(cache_obj$data)) {
+    updated_at <- cache_obj$updated_at
+    if (is.null(updated_at) || all(is.na(updated_at))) {
+      updated_at <- file.info(cache_path)$mtime[[1]]
+    }
+
+    return(list(
+      data = cache_obj$data,
+      updated_at = updated_at
+    ))
+  }
+
+  NULL
+}
+
+get_produtos_base <- function(token, force_refresh = FALSE) {
   cache_key <- "__MELAO_MELANCIA_TODAS__"
 
+  if (isTRUE(force_refresh)) {
+    limpar_cache_produtos(remover_arquivo = TRUE)
+  }
+
   if (exists(cache_key, envir = .produtos_cache, inherits = FALSE)) {
-    return(get(cache_key, envir = .produtos_cache, inherits = FALSE))
+    df_memoria <- get(cache_key, envir = .produtos_cache, inherits = FALSE)
+    df_memoria <- marcar_fonte_dados(df_memoria, "memory")
+    return(df_memoria)
   }
 
   if (file.exists(.cache_arquivo_produtos)) {
     idade_horas <- as.numeric(difftime(Sys.time(), file.info(.cache_arquivo_produtos)$mtime, units = "hours"))
     if (!is.na(idade_horas) && idade_horas <= .cache_ttl_horas) {
-      df_cache <- tryCatch(readRDS(.cache_arquivo_produtos), error = function(e) NULL)
-      if (is.data.frame(df_cache)) {
+      cache_payload <- ler_cache_produtos(.cache_arquivo_produtos)
+      if (!is.null(cache_payload) && is.data.frame(cache_payload$data)) {
+        df_cache <- cache_payload$data |>
+          marcar_data_atualizacao_dados(cache_payload$updated_at) |>
+          marcar_fonte_dados("disk_cache")
         assign(cache_key, df_cache, envir = .produtos_cache)
         return(df_cache)
       }
@@ -209,7 +287,7 @@ get_produtos_base <- function(token) {
   }
 
   if (is.null(token) || !nzchar(token)) {
-    return(normalizar_produtos(tibble()))
+    return(marcar_fonte_dados(normalizar_produtos(tibble()), "unavailable"))
   }
 
   culturas_labels <- names(CULTURAS_SUPORTADAS)
@@ -224,9 +302,13 @@ get_produtos_base <- function(token) {
   })
   df <- bind_rows(dfs) |>
     normalizar_produtos()
+  updated_at <- Sys.time()
+  df <- df |>
+    marcar_data_atualizacao_dados(updated_at) |>
+    marcar_fonte_dados("api")
 
   dir.create(dirname(.cache_arquivo_produtos), showWarnings = FALSE, recursive = TRUE)
-  try(saveRDS(df, .cache_arquivo_produtos), silent = TRUE)
+  try(saveRDS(list(data = df, updated_at = updated_at), .cache_arquivo_produtos), silent = TRUE)
 
   assign(cache_key, df, envir = .produtos_cache)
   df

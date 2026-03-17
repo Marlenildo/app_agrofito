@@ -88,7 +88,8 @@ fluidPage(
           selectInput(
             "cultura",
             "Selecione a cultura:",
-            choices = NULL,
+            choices = c("Todos os produtos", names(CULTURAS_SUPORTADAS)),
+            selected = "Todos os produtos",
             selectize = TRUE
           )
         ),
@@ -107,11 +108,22 @@ fluidPage(
           div(
             class = "filter-actions",
             actionButton(
+              "btn_atualizar_dados",
+              tagList(icon("arrows-rotate"), "Atualizar dados"),
+              class = "filter-refresh-btn"
+            ),
+            actionButton(
               "btn_limpar_filtros",
               tagList(icon("rotate-left"), "Limpar filtros"),
               class = "filter-clear-btn"
             )
           )
+        )
+      ),
+      fluidRow(
+        column(
+          12,
+          uiOutput("data_status")
         )
       ),
       fluidRow(
@@ -124,7 +136,6 @@ fluidPage(
         column(
           12,
           class = "input-box",
-          uiOutput("loading_hint"),
           div(
             class = "view-switch",
             actionButton(
@@ -139,13 +150,14 @@ fluidPage(
             )
           ),
           br(),
+          uiOutput("loading_hint"),
+          br(),
           br(),
           withSpinner(
             uiOutput("result_view"),
             type = 6,
             color = "#548238",
-            proxy.height = "320px",
-            caption = "Carregando dados do AGROFIT..."
+            proxy.height = "320px"
           )
         )
       )

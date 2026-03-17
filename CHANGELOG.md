@@ -12,6 +12,19 @@ e o versionamento segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
   - `docs/adr/0001-role-e-ps-postgres.md`
   - `docs/roadmap/ps-editor-plan.md`
 
+## [1.4.14] - 2026-03-17
+
+### Changed
+- A aba `Consulta` passou a carregar a base uma vez por sessao e reutilizar cache local/em memoria, com botao `Atualizar dados` para forcar novo download quando necessario.
+- O carregamento inicial e a atualizacao manual agora usam o spinner central da consulta, sem popup lateral do Shiny, com mensagem temporaria no proprio bloco de resultados.
+- A linha de status dos dados foi refinada para informar de forma simples se a base foi baixada agora ou se esta vindo do cache, com um unico icone por estado.
+- Os botoes `Atualizar dados` e `Limpar filtros` receberam acabamento visual mais suave, alinhado aos seletores.
+
+### Fixed
+- O botao `Limpar filtros` voltou a resetar corretamente busca, cultura e classe.
+- O seletor de `Classe` voltou a ser repopulado de forma consistente a partir da base carregada.
+- Os cards de quantidade foram restaurados ao visual padrao do projeto e ajustados para ocupar menos largura no desktop.
+
 ## [1.4.13] - 2026-03-17
 
 ### Changed
